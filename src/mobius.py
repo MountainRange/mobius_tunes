@@ -38,7 +38,7 @@ class mobius_py:
 		self.fileloader = file_manager.file_manager()
 		self.rawCompare = rawCompare.rawCompare()
 		self.parts = parts
-		# signal.signal(signal.SIGINT, self.signal_handler)
+		signal.signal(signal.SIGINT, self.signal_handler)
 
 
 	# returns a list of lists of points in the song with similar frequencies
