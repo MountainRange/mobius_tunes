@@ -14,8 +14,11 @@ def loadConnections(playList):
 
 def fractureSong(song, connections):
 	fragments = []
-	for breakPoint in connections:
-		fragments.append(song[:])
+	i = 0
+	while (i < len(connections)):
+		i += 1
+		fragments.append(song[:connections[i]])
+		song = song[connections[i]:]
 	return fragments
 
 def main():
@@ -41,7 +44,7 @@ def main():
 	# play song. We need to allow the song to randomly jump via connections[]
 	songFragments = fractureSong(song, connections)
 	print(connections)
-	play(song)
+	play(songFragments[0])
 	random.randint(0,2)
 
 if __name__ == "__main__":
