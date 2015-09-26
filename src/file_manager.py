@@ -13,7 +13,7 @@ from operator import itemgetter
 import time
 
 #define stream chunk
-chunk = 1024
+chunk = 32
 
 class file_manager(object):
 
@@ -92,9 +92,10 @@ class file_manager(object):
 
 		#paly stream
 		while counter + chunk < len(rawdata):
-			stream.write(rawdata[counter:counter + chunk])
-			counter = counter + chunk
-			time.sleep((chunk/waveparams[2])/1000)
+			free = stream.get_write_available()
+			if free > chunk:
+				stream.write(rawdata[counter:counter + chunk])
+				counter = counter + chunk
 
 		#stop stream
 		stream.stop_stream()
