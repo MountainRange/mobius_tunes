@@ -48,7 +48,7 @@ class mobius_py:
 		i = 0
 		while (i < len(connections)):
 			i += 1
-			fragments.append(song[:connections[i]])
+			fragments.append(song[:connections[i][0]])
 			song = song[connections[i]:]
 		return fragments
 
