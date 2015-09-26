@@ -80,12 +80,12 @@ class mobius_py:
 		for i in range(0, 1):
 			a = np.frombuffer(datalist[i+4], np.int16)
 			b = np.frombuffer(datalist[i+5], np.int16)
-			
+
 			a1 = copy.deepcopy(a[len(a)-100:]).astype(float)
 			b1 = copy.deepcopy(b[:100]).astype(float)
-			
+
 			automax = np.max(np.correlate(a1, a1, mode='full'))
-			
+
 			compmax = np.max(np.correlate(a1, b1, mode='full'))
 
 			similarity = compmax / automax
@@ -96,7 +96,7 @@ class mobius_py:
 
 			#plt.plot(npf.ifft(npf.fft(a1)) * npf.fft(a1))
 			#plt.plot(npf.ifft(npf.fft(a1)) * npf.fft(b1))
-			
+
 			auto = np.correlate(a1, a1, mode='same')
 			other = np.correlate(a1, b1, mode='same')
 
@@ -114,13 +114,14 @@ class mobius_py:
 		sorted(connections, key = itemgetter(0))
 
 		# Write changes
-		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, rebultdata)
+		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, rebuiltdata)
 		song = self.fileloader.load_from_wav("temporaryOutput.wav")
+
+		self.fileloader.play_raw_data(wavedata, rebuiltdata)
 
 		# play song. We need to allow the song to randomly jump via connections[]
 		songFragments = self.fractureSong(song, connections)
-		play(song)
-		random.randint(0,2)
+		# play(song)
 
 		# Do not remove unless debugging
 		self.signal_handler(signal.SIGINT, None)

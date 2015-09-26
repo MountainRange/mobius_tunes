@@ -6,10 +6,13 @@ import random
 import os
 import tempfile
 import file_manager
+import pyaudio
 from pydub import AudioSegment
 from pydub.playback import play
 from operator import itemgetter
 
+#define stream chunk
+chunk = 1024
 
 class file_manager(object):
 
@@ -72,3 +75,28 @@ class file_manager(object):
 		tempWrite.setframerate(waveparams[2])
 		tempWrite.setnframes(waveparams[3])
 		tempWrite.writeframesraw(rawdata)
+
+	def play_raw_data(self, waveparams, rawdata):
+		#open a wav format music
+		f = wave.open(r"/usr/share/sounds/alsa/Rear_Center.wav","rb")
+		#instantiate PyAudio
+		p = pyaudio.PyAudio()
+		#open stream
+		stream = p.open(format = p.get_format_from_width(waveparams[1]),
+						channels = waveparams[0],
+						rate = waveparams[2],
+						output = True)
+		#read data
+		counter = 0
+
+		#paly stream
+		while counter + chunk < len(rawdata):
+			stream.write(rawdata[counter:counter + chunk])
+			counter = counter + chunk
+
+		#stop stream
+		stream.stop_stream()
+		stream.close()
+
+		#close PyAudio
+		p.terminate()
