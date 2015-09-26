@@ -1,10 +1,8 @@
 #!/bin/python3
 
-import wave
 import audioop
 import random
-from pydub import AudioSegment
-from pydub.playback import play
+import pyglet
 
 # returns a list of lists of points in the song with similar frequencies
 def loadConnections(song):
@@ -12,14 +10,16 @@ def loadConnections(song):
 
 def main():
 	# initialize variables
-	song = AudioSegment.from_mp3("testmusic/funkychunk.mp3")
+	song = pyglet.media.load("testmusic/funkychunk.mp3")
+	song.play()
+	pyglet.app.run()
 
 	# load connections list with song links
 	connections = loadConnections(song)
 
 	# play song. We need to allow the song to randomly jump via connections[]
-	print("hi")
+	print(connections)
 	random.randint(0,2)
 
 if __name__=="__main__":
-    main()
+	main()
