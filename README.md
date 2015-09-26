@@ -8,4 +8,4 @@ pip3 install wave
 
 Run it when its done :smile:
 
-http://pydub.com/ Has useful pydub tips
+https://docs.python.org/3.2/library/audioop.html probably has useful things for audio manipulation
