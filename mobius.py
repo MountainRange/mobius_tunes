@@ -17,12 +17,15 @@ def main():
 
 	# load connections list with song links
 	connections = loadConnections(song)
-	
+
 	folder = tempfile.mkdtemp()
-	
+	print(folder)
+
 	filename = song.export(folder + "/filename.wav", format="wav")
 
-	wave.open(filename.name)
+	wavefile = wave.open(filename.name)
+	wavefile.setpos(0)
+	rawdata = wavefile.readframes(wavefile.getnframes())
 
 	# play song. We need to allow the song to randomly jump via connections[]
 	#play(song)
