@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import wave
+import re
 import audioop
 import random
 import tempfile
@@ -32,15 +33,19 @@ class mobius_py:
 
 	def main(self):
 		# get songs
-		song = self.fileloader.load_from_mp3("testmusic/funkychunk.mp3") #for each song
+		song = self.fileloader.load_from_mp3("testmusic/funkychunk.mp3", useTemp = False) #for each song
 
-		folder = tempfile.mkdtemp()
-		print(folder)
+		self.fileloader.generate_tempfile()
+		print(self.fileloader.get_tempfile())
 
 		# Write mp3 to wav
-		filename = self.fileloader.write_to_wav(folder + "/filename.wav", song)
+		filename = self.fileloader.write_to_wav("filename.wav", song)
 
-		wavedata, rawdata = self.fileloader.get_raw_from_wav(filename.name)
+		# Get only last bit of filename. If this errors, no match!
+		match = re.compile("[^/\\\\]*$").search(filename.name).group()
+
+
+		wavedata, rawdata = self.fileloader.get_raw_from_wav(match)
 
 		# PERFORM SOME CHANGES
 		#
@@ -55,8 +60,8 @@ class mobius_py:
 		sorted(connections, key = itemgetter(0))
 
 		# Write changes
-		self.fileloader.write_raw_to_wav(folder + "/temporaryOutput.wav", wavedata, rawdata)
-		song = self.fileloader.load_from_wav(folder + "/temporaryOutput.wav")
+		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, rawdata)
+		song = self.fileloader.load_from_wav("temporaryOutput.wav")
 
 		# play song. We need to allow the song to randomly jump via connections[]
 		songFragments = self.fractureSong(song, connections)
