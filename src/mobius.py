@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import signal
+import sys
 import wave
 import re
 import audioop
@@ -14,11 +16,27 @@ from pydub.playback import play
 from operator import itemgetter
 import matplotlib.pyplot as plt
 
+
+yes = set(['yes','y', 'ye'])
+no = set(['no','n'])
+
 class mobius_py:
+
+	def signal_handler(self, signal=signal.SIGINT, frame=None):
+		choice = input('Would you like to keep your tmp files [yN]: ').lower()
+		if choice in yes:
+			print("Find your tmp files at: " + self.fileloader.get_tempfile())
+		elif choice in no:
+			self.fileloader.delete_tempfile()
+		else:
+			self.fileloader.delete_tempfile()
+
+		sys.exit(0)
 
 	def __init__(self, parts=500):
 		self.fileloader = file_manager.file_manager()
 		self.parts = parts
+		signal.signal(signal.SIGINT, self.signal_handler)
 
 
 	# returns a list of lists of points in the song with similar frequencies
@@ -27,14 +45,12 @@ class mobius_py:
 
 	def fractureSong(self, song, connections):
 		fragments = []
-		for breakPoint in connections:
-			fragments.append(song[:])
+		i = 0
+		while (i < len(connections)):
+			i += 1
+			fragments.append(song[:connections[i][0]])
+			song = song[connections[i]:]
 		return fragments
-
-
-
-		# load connections list with song links
-		connections = self.loadConnections(song)
 
 	def main(self):
 		# get songs
@@ -87,7 +103,7 @@ class mobius_py:
 			plt.plot(auto)
 			plt.plot(other)
 			plt.show()
-			
+
 			rebuiltdata += bytes(a)
 
 		playList = []
@@ -98,7 +114,7 @@ class mobius_py:
 		sorted(connections, key = itemgetter(0))
 
 		# Write changes
-		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, rebuiltdata)
+		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, rebultdata)
 		song = self.fileloader.load_from_wav("temporaryOutput.wav")
 
 		# play song. We need to allow the song to randomly jump via connections[]
@@ -106,14 +122,8 @@ class mobius_py:
 		play(song)
 		random.randint(0,2)
 
-def rfft_xcorr(x, y):
-	M = len(x) + len(y) - 1
-	N = 2 ** int(np.ceil(np.log2(M)))
-	X = np.fft.rfft(x, N)
-	Y = np.fft.rfft(y, N)
-	cxy = np.fft.irfft(X * np.conj(Y))
-	cxy = np.hstack((cxy[:len(x)], cxy[N-len(y)+1:]))
-	return cxy
+		# Do not remove unless debugging
+		self.signal_handler(signal.SIGINT, None)
 
 if __name__ == "__main__":
 	mobius = mobius_py()

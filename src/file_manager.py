@@ -3,6 +3,7 @@ import shutil
 import copy
 import audioop
 import random
+import os
 import tempfile
 import file_manager
 from pydub import AudioSegment
@@ -26,6 +27,9 @@ class file_manager(object):
 	def delete_tempfile(self, path = None):
 		if path == None:
 			path = self.temporaryfile
+		if path == None:
+			print("Temp File was not created yet!")
+			return
 		shutil.rmtree(path)
 
 	def set_tempfile(self, path):
