@@ -6,7 +6,6 @@ import random
 import os
 import tempfile
 import file_manager
-import pyaudio
 import pyglet
 from pydub import AudioSegment
 from pydub.playback import play
