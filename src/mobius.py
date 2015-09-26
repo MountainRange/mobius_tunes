@@ -60,22 +60,35 @@ class mobius_py:
 		for i in range(1, self.parts):
 			datalist += [rawdata[(int(len(rawdata)/self.parts)*(i)):(int(len(rawdata)/self.parts)*(i+1))]]
 
-		rebultdata = b''
+		rebuiltdata = b''
 		for i in range(0, 1):
-			d = np.frombuffer(datalist[i], np.int16)
-			b = copy.deepcopy(d)
+			a = np.frombuffer(datalist[i+4], np.int16)
+			b = np.frombuffer(datalist[i+5], np.int16)
 			
-			c = copy.deepcopy(b[:100])
-			a = copy.deepcopy(d[:100])
+			a1 = copy.deepcopy(a[len(a)-100:]).astype(float)
+			b1 = copy.deepcopy(b[:100]).astype(float)
+			
+			automax = np.max(np.correlate(a1, a1, mode='full'))
+			
+			compmax = np.max(np.correlate(a1, b1, mode='full'))
 
-			c[50:] = 0
-			a[50:] = 0
+			similarity = compmax / automax
 
-			plt.plot ( (npf.ifft(npf.fft(c))) * (npf.fft(np.frombuffer(audioop.reverse(bytes(a), 2), np.int16))) )
+			print (automax)
+			print (compmax)
+			print (similarity)
+
+			#plt.plot(npf.ifft(npf.fft(a1)) * npf.fft(a1))
+			#plt.plot(npf.ifft(npf.fft(a1)) * npf.fft(b1))
+			
+			auto = np.correlate(a1, a1, mode='same')
+			other = np.correlate(a1, b1, mode='same')
+
+			plt.plot(auto)
+			plt.plot(other)
 			plt.show()
 			
-			
-			rebultdata += bytes(b)
+			rebuiltdata += bytes(a)
 
 		playList = []
 		playList.append(song)
@@ -92,6 +105,15 @@ class mobius_py:
 		songFragments = self.fractureSong(song, connections)
 		play(song)
 		random.randint(0,2)
+
+def rfft_xcorr(x, y):
+	M = len(x) + len(y) - 1
+	N = 2 ** int(np.ceil(np.log2(M)))
+	X = np.fft.rfft(x, N)
+	Y = np.fft.rfft(y, N)
+	cxy = np.fft.irfft(X * np.conj(Y))
+	cxy = np.hstack((cxy[:len(x)], cxy[N-len(y)+1:]))
+	return cxy
 
 if __name__ == "__main__":
 	mobius = mobius_py()
