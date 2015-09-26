@@ -8,3 +8,4 @@ pip3 install wave
 
 Run it when its done :smile:
 
+http://pydub.com/ Has useful pydub tips
