@@ -4,6 +4,8 @@ Snack GT 2015
 ### Dependencies
 ```
 pip3 install wave
+pip3 install pydub
+pip3 install numpy
 ```
 
 Run it when its done :smile:
