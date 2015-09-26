@@ -59,13 +59,24 @@ class rawCompare:
 
 				#rebuiltdata += bytes(a)
 
-			print (simMat)
+			#print (simMat)
+
+			indexArr = copy.deepcopy(simMat)
 
 			maxIndices = np.argpartition(simMat, -4)[-4:]
 
 			simMat = simMat.ravel()
 			simMat.sort()
 			simMat = simMat[::-1]
+			
+			top = simMat[:10]
+
+			test = []
+
+			for i in range(len(top)):
+				test.append(np.asarray(np.where(indexArr == top[i])).T[0].tolist())
+
+			return test
 
 
-			return simMat[:10]
+

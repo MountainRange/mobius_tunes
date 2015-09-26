@@ -74,7 +74,7 @@ class mobius_py:
 		#
 		# Test modification
 
-		#print (self.rawCompare.compare(copy.deepcopy(rawdata), 500))
+		print (self.rawCompare.compare(copy.deepcopy(rawdata), 500))
 
 		playList = []
 		playList.append(song)
