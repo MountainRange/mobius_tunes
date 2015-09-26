@@ -6,6 +6,7 @@ Snack GT 2015
 pip3 install wave
 pip3 install pydub
 pip3 install numpy
+pip3 install matplotlib
 ```
 
 Run it when its done :smile:
