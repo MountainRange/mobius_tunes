@@ -5,6 +5,7 @@ import audioop
 import random
 from pydub import AudioSegment
 from pydub.playback import play
+import tempfile
 
 # returns a list of lists of points in the song with similar frequencies
 def loadConnections(song):
@@ -16,10 +17,17 @@ def main():
 
 	# load connections list with song links
 	connections = loadConnections(song)
+	
+	folder = tempfile.mkdtemp()
+	
+	filename = song.export(folder + "/filename.wav", format="wav")
+
+	wave.open(filename.name)
 
 	# play song. We need to allow the song to randomly jump via connections[]
-	print("hi")
-	random.randint(0,2)
+	#play(song)
+	#print("hi")
+	#random.randint(0,2)
 
 if __name__=="__main__":
     main()
