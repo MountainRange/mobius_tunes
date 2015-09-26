@@ -27,14 +27,12 @@ class mobius_py:
 
 	def fractureSong(self, song, connections):
 		fragments = []
-		for breakPoint in connections:
-			fragments.append(song[:])
+		i = 0
+		while (i < len(connections)):
+			i += 1
+			fragments.append(song[:connections[i]])
+			song = song[connections[i]:]
 		return fragments
-
-
-
-		# load connections list with song links
-		connections = self.loadConnections(song)
 
 	def main(self):
 		# get songs
@@ -60,7 +58,7 @@ class mobius_py:
 		for i in range(1, self.parts):
 			datalist += [rawdata[(int(len(rawdata)/self.parts)*(i)):(int(len(rawdata)/self.parts)*(i+1))]]
 
-		rebultdata = b''
+		rebuiltdata = b''
 		for i in range(0, 1):
 			d = np.frombuffer(datalist[i], np.int16)
 			b = copy.deepcopy(d)
@@ -75,7 +73,7 @@ class mobius_py:
 			plt.show()
 			
 			
-			rebultdata += bytes(b)
+			rebuiltdata += bytes(b)
 
 		playList = []
 		playList.append(song)
