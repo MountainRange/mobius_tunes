@@ -17,15 +17,26 @@ def main():
 
 	# load connections list with song links
 	connections = loadConnections(song)
-
 	folder = tempfile.mkdtemp()
 	print(folder)
 
+	# Write mp3 to wav
 	filename = song.export(folder + "/filename.wav", format="wav")
-
 	wavefile = wave.open(filename.name)
+	wavedata = wavefile.getparams()
 	wavefile.setpos(0)
 	rawdata = wavefile.readframes(wavefile.getnframes())
+
+	# PERFORM SOME CHANGES
+
+
+	# Write changes
+	tempWrite = wave.open(folder + "/temporaryOutput.wav", mode = 'wb')
+	tempWrite.setnchannels(wavedata[0])
+	tempWrite.setsampwidth(wavedata[1])
+	tempWrite.setframerate(wavedata[2])
+	tempWrite.setnframes(wavedata[3])
+	tempWrite.writeframesraw(rawdata)
 
 	# play song. We need to allow the song to randomly jump via connections[]
 	#play(song)
@@ -33,4 +44,4 @@ def main():
 	#random.randint(0,2)
 
 if __name__=="__main__":
-    main()
+	main()
