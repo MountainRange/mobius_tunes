@@ -12,9 +12,6 @@ from pydub.playback import play
 from operator import itemgetter
 import time
 
-#define stream chunk
-chunk = 32
-
 class file_manager(object):
 
 	def __init__(self):
@@ -78,8 +75,7 @@ class file_manager(object):
 		tempWrite.writeframesraw(rawdata)
 
 	def play_raw_data(self, waveparams, rawdata):
-		#open a wav format music
-		f = wave.open(r"/usr/share/sounds/alsa/Rear_Center.wav","rb")
+
 		#instantiate PyAudio
 		p = pyaudio.PyAudio()
 		#open stream
@@ -87,19 +83,13 @@ class file_manager(object):
 						channels = waveparams[0],
 						rate = waveparams[2],
 						output = True)
-		#read data
-		counter = 0
 
-		#paly stream
-		while counter + chunk < len(rawdata):
-			free = stream.get_write_available()
-			if free > chunk:
-				stream.write(rawdata[counter:counter + chunk])
-				counter = counter + chunk
+		# play stream (3), blocking call
+		stream.write(rawdata)
 
-		#stop stream
+		# stop stream (4)
 		stream.stop_stream()
 		stream.close()
 
-		#close PyAudio
+		# close PyAudio (5)
 		p.terminate()
