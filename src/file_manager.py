@@ -9,10 +9,6 @@ from operator import itemgetter
 
 
 class file_manager(object):
-	def __init__(self):
-		print("init")
-
-
 
 	def load_from_mp3(self, path):
 		return AudioSegment.from_mp3(path)
@@ -21,10 +17,13 @@ class file_manager(object):
 		return toWrite.export(path, format="wav")
 
 	def get_raw_from_wav(self, path):
-		open = wave.open(path)
-		open.setpos(0)
+		toopen = wave.open(path)
+		toopen.setpos(0)
 
-		return open.getparams(), open.readframes(open.getnframes())
+		return toopen.getparams(), toopen.readframes(toopen.getnframes())
+
+	def load_from_wav(self, path):
+		return AudioSegment.from_wav(path)
 
 	def write_raw_to_wav(self, path, waveparams, rawdata):
 		tempWrite = wave.open(path, mode = 'wb')
@@ -33,4 +32,3 @@ class file_manager(object):
 		tempWrite.setframerate(waveparams[2])
 		tempWrite.setnframes(waveparams[3])
 		tempWrite.writeframesraw(rawdata)
-

@@ -44,7 +44,8 @@ class mobius_py:
 
 		# PERFORM SOME CHANGES
 		#
-		#
+		# Test modification
+		# rawdata = rawdata[5000000:]
 
 		playList = []
 		playList.append(song)
@@ -53,10 +54,9 @@ class mobius_py:
 		connections = self.loadConnections(playList)
 		sorted(connections, key = itemgetter(0))
 
-
-
 		# Write changes
 		self.fileloader.write_raw_to_wav(folder + "/temporaryOutput.wav", wavedata, rawdata)
+		song = self.fileloader.load_from_wav(folder + "/temporaryOutput.wav")
 
 		# play song. We need to allow the song to randomly jump via connections[]
 		songFragments = self.fractureSong(song, connections)
