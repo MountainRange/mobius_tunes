@@ -9,10 +9,12 @@ import random
 import tempfile
 import file_manager
 import numpy as np
+import numpy.fft as npf
 import copy
 from pydub import AudioSegment
 from pydub.playback import play
 from operator import itemgetter
+import matplotlib.pyplot as plt
 
 
 yes = set(['yes','y', 'ye'])
@@ -75,12 +77,20 @@ class mobius_py:
 			datalist += [rawdata[(int(len(rawdata)/self.parts)*(i)):(int(len(rawdata)/self.parts)*(i+1))]]
 
 		rebultdata = b''
-		for i in range(0, len(datalist)):
+		for i in range(0, 1):
 			d = np.frombuffer(datalist[i], np.int16)
 			b = copy.deepcopy(d)
-			a = 5
-			for i in range(0, a):
-				b[:] += np.mean(d, 0)
+			
+			c = copy.deepcopy(b[:100])
+			a = copy.deepcopy(d[:100])
+
+			c[50:] = 0
+			a[50:] = 0
+
+			plt.plot ( (npf.ifft(npf.fft(c))) * (npf.fft(np.frombuffer(audioop.reverse(bytes(a), 2), np.int16))) )
+			plt.show()
+			
+			
 			rebultdata += bytes(b)
 
 		playList = []
