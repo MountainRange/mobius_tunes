@@ -58,7 +58,7 @@ class mobius_py:
 		# initialize some variables
 		cl = command_line_flags()
 		chunksize = 500
-		directory = "testmusic"
+		directory = "mobius/testmusic"
 		threshold = 1.0
 		opts = cl.get_arguments()
 		for opt in opts:
@@ -149,3 +149,7 @@ def main():
 		mob.fileloader.delete_tempfile()
 		e = sys.exc_info()[0]
 		write_to_page( "<p>Error: %s</p>" % e )
+
+if __name__ == '__main__':
+    main()
+
