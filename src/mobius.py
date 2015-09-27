@@ -100,10 +100,11 @@ class mobius_py:
 			if i % 500 == 499:
 				i -= 499
 			if i in fragDict:
-				self.fileloader.play_raw_data(wavedata, currentfrags, queue = True)
-				time.sleep(10)
-				currentfrags = b''
 				if random.randint(0, 4) == 1:
+					print (currentfrags)
+					self.fileloader.play_raw_data(wavedata, currentfrags, queue = True)
+					time.sleep(10)
+					currentfrags = b''
 					print ("YES")
 					i = fragDict[i]
 			i += 1

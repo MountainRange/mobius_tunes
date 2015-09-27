@@ -162,6 +162,8 @@ class rawCompare:
 			#plt.show()
 
 			#rebuiltdata += bytes(a)
+
+
 		print ("CALCULATED")
 
 		#print (simMat)
@@ -187,6 +189,8 @@ class rawCompare:
 		for i in range(len(test)):
 			fragList.append(datalist[test[i][0]] + datalist[test[i][1]])
 			fragDict[test[i][0]] = test[i][1]
+
+		print (fragDict)
 		
 		return fragDict, datalist
 
