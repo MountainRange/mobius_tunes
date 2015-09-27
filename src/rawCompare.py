@@ -28,6 +28,7 @@ class rawCompare:
 				if j == i:
 					simMat[i][j] = 0
 					continue
+
 				a = np.frombuffer(datalist[i], np.int8)
 				b = np.frombuffer(datalist[j], np.int8)
 
@@ -92,7 +93,7 @@ class rawCompare:
 			test2 += datalist[i]
 			print (i)
 			if i in fragDict:
-				if random.randint(0, 3) == 1:
+				if random.randint(0, 4) == 1:
 					print ("YES")
 					i = fragDict[i]
 			i += 1
@@ -160,7 +161,6 @@ class rawCompare:
 
 		for i in range(len(top)):
 			test.append(np.asarray(np.where(indexArr == top[i])).T[0].tolist())
-
 		fragList = []
 	
 		fragDict = {test[0][0]: test[0][1]}
@@ -177,7 +177,7 @@ class rawCompare:
 			test2 += datalist[i]
 			print (i)
 			if i in fragDict:
-				if random.randint(0, 3) == 1:
+				if random.randint(0, 4) == 1:
 					print ("YES")
 					i = fragDict[i]
 			i += 1
