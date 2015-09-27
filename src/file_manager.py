@@ -21,6 +21,7 @@ class file_manager(object):
 
 	def __init__(self):
 		self.temporaryfile = None
+		self.pyglet_player = None
 
 	def generate_tempfile(self):
 		self.temporaryfile = tempfile.mkdtemp()
@@ -91,8 +92,20 @@ class file_manager(object):
 		sound = pyglet.media.load(prefix + path, streaming=False)
 		sound.play();
 
-	def play_raw_data(self, waveparams, rawdata):
+	def queue_wav_file(self, path, useTemp = True):
+		print ("TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST")
+		if self.pyglet_player == None:
+			self.pyglet_player = pyglet.media.Player()
+
+		prefix = self.__sanitize__(useTemp)
+		self.pyglet_player.queue(pyglet.media.load(prefix + path, streaming=False))
+		self.pyglet_player.play()
+
+	def play_raw_data(self, waveparams, rawdata, queue = False):
 		filename = str(random.randint(0, 99999999))
 		#open a wav format music
 		self.write_raw_to_wav(self.get_tempfile() + filename, waveparams, rawdata, False)
-		self.play_wav_file(self.get_tempfile() + filename, False)
+		if queue:
+			self.queue_wav_file(self.get_tempfile() + filename, False)
+		else:
+			self.play_wav_file(self.get_tempfile() + filename, False)
