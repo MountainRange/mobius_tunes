@@ -15,6 +15,7 @@ from operator import itemgetter
 import matplotlib.pyplot as plt
 import progress_bar
 import warnings
+from scipy import signal
 
 class rawCompare:
 	
@@ -136,18 +137,26 @@ class rawCompare:
 				#print (str(i) + " parts processed.")
 				bar.update_bar((i/chunksize/len(rawdatas))*50)
 			for j in range(len(datalist)):
-				if (j in range(i-10, i+10)) or j < 10 or j > chunksize-10:
+				if (j in range(i-10, i+10)) or (j > chunksize*i and j < (chunksize*i)+10) or (j > (chunksize*i)+chunksize-10 and j < (chunksize*i)+chunksize):
 					simMat[i][j] = 0
 					continue
 				a = np.frombuffer(datalist[i], np.int16)
 				b = np.frombuffer(datalist[j], np.int16)
 
-				a1 = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
-				b1 = copy.deepcopy(b[:chunksize]).astype(float)
+				apre = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
+				a1 = np.zeros(chunksize * 2)
+				a1[chunksize/2:chunksize/2+chunksize] = apre
+				bpre = copy.deepcopy(b[:chunksize]).astype(float)
+				b1 = np.zeros(chunksize * 2)
+				b1[chunksize/2:chunksize/2+chunksize] = bpre
 
-				automax = np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
+				#automax = np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
+				c = signal.fftconvolve(b1, apre[::-1], mode='valid')
+				automax = np.max(c)
 
-				compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
+				#compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
+				d = signal.fftconvolve(a1, apre[::-1], mode='valid')
+				compmax = np.max(d)
 
 				with warnings.catch_warnings():
 					warnings.simplefilter("ignore")
