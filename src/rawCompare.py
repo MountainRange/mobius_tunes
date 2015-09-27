@@ -136,7 +136,7 @@ class rawCompare:
 				#print (str(i) + " parts processed.")
 				bar.update_bar((i/chunksize/len(rawdatas))*50)
 			for j in range(len(datalist)):
-				if j in range(i-10, i+10):
+				if (j in range(i-10, i+10)) or j < 10 or j > chunksize-10:
 					simMat[i][j] = 0
 					continue
 				a = np.frombuffer(datalist[i], np.int16)
