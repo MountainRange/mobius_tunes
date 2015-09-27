@@ -33,8 +33,8 @@ class rawCompare:
 					simMat[i][j] = 0
 					continue
 
-				a = np.frombuffer(datalist[i], np.int8)
-				b = np.frombuffer(datalist[j], np.int8)
+				a = np.frombuffer(datalist[i], np.int16)
+				b = np.frombuffer(datalist[j], np.int16)
 
 				a1 = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
 				b1 = copy.deepcopy(b[:chunksize]).astype(float)
