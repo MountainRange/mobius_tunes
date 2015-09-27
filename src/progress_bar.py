@@ -24,6 +24,8 @@ class progress_bar:
 			print("", end = "\n")
 			raise ValueError('Your new bar value decreased!')
 
+		self.last = length
+
 		if length > self.size:
 			print("", end = "\n")
 			raise ValueError('You entered a len > size for the bar')
@@ -48,6 +50,9 @@ class progress_bar:
 		self.update_bar(self.size)
 		print("", end = "\n")
 		last = self.size
+
+	def get_value(self):
+		return self.last
 
 if __name__ == "__main__":
 	bar = progress_bar(20)

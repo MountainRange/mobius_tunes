@@ -66,11 +66,11 @@ class mobius_py:
 				directory = opt[1]
 				print("Directory: " + directory)
 			elif opt[0] == '-t':
-				threshold = opt[1]
-				print("Similarity threshold: " + threshold)
+				threshold = (float) (opt[1])
+				print("Similarity threshold: " + (str) (threshold))
 			elif opt[0] == '-c':
-				chunksize = opt[1]
-				print("Size of song chunks: " + chunksize)
+				chunksize = (int) (opt[1])
+				print("Size of song chunks: " + (str) (chunksize))
 
 		# get songs
 		songs = self.fileloader.load_mp3_from_folder(directory) #for each song
@@ -112,16 +112,14 @@ class mobius_py:
 			if stopNum >= maxStop:
 				break
 			currentfrags += datalist[i]
-			print (i)
 			if i % self.parts == self.parts-1:
 				i -= self.parts-1
 			if i in fragDict:
-				if random.randint(0, 4) == 1:
-					print (len(currentfrags))
+				if random.randint(0, 4) == 1 and len(currentfrags) > 256000:
+					print ("JUMPED ADDED")
 					self.fileloader.play_raw_data(wavedata, currentfrags, queue = True)
-					time.sleep(10)
+					time.sleep((len(currentfrags)/256000)-1)
 					currentfrags = b''
-					print ("YES")
 					i = fragDict[i]
 			i += 1
 

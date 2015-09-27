@@ -93,7 +93,7 @@ class file_manager(object):
 		sound.play();
 
 	def queue_wav_file(self, path, useTemp = True):
-		print ("TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST")
+		print ("FRAGMENT ADDED TO QUEUE")
 		if self.pyglet_player == None:
 			self.pyglet_player = pyglet.media.Player()
 

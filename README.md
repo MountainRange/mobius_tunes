@@ -8,6 +8,11 @@ pip3 install pydub
 pip3 install numpy
 pip3 install pyglet
 ```
+Does NOT support windows unless ffmpeg is compiled.
+Reccomened to run on linux! :smile:
+
+Usage:
+`./mobius.py`
 
 Run it when its done :smile:
 
