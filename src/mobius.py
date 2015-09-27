@@ -101,6 +101,7 @@ class mobius_py:
 				i -= 499
 			if i in fragDict:
 				if random.randint(0, 4) == 1:
+					print (len(currentfrags))
 					self.fileloader.play_raw_data(wavedata, currentfrags, queue = True)
 					time.sleep(10)
 					currentfrags = b''
