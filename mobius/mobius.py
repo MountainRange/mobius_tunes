@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+from mobius.file_manager import file_manager
+from mobius.command_line_flags import command_line_flags
+from mobius.rawCompare import rawCompare
+
 import signal
 import sys
 import wave
@@ -7,17 +11,14 @@ import re
 import audioop
 import random
 import tempfile
-import file_manager
-import command_line_flags
 import numpy as np
 import numpy.fft as npf
 import copy
 import time
+import os
 from pydub import AudioSegment
 from pydub.playback import play
 from operator import itemgetter
-import rawCompare
-
 
 yes = set(['yes','y', 'ye', 'yah', 'ya'])
 no = set(['no','n', 'nah', 'na'])
@@ -36,8 +37,8 @@ class mobius_py:
 		exit(0)
 
 	def __init__(self, parts=100):
-		self.fileloader = file_manager.file_manager()
-		self.rawCompare = rawCompare.rawCompare()
+		self.fileloader = file_manager()
+		self.rawCompare = rawCompare()
 		self.parts = parts
 		signal.signal(signal.SIGINT, self.signal_handler)
 
@@ -57,7 +58,7 @@ class mobius_py:
 
 	def main(self):
 		# initialize some variables
-		cl = command_line_flags.command_line_flags()
+		cl = command_line_flags()
 		chunksize = 500
 		directory = "testmusic"
 		threshold = 1.0
@@ -72,6 +73,10 @@ class mobius_py:
 			elif opt[0] == '-c':
 				chunksize = (int) (opt[1])
 				print("Size of song chunks: " + (str) (chunksize))
+
+		if not os.path.isdir(directory):
+			print(directory + " was not found, specify a directory with -d <DIR>!")
+			exit(2)
 
 		# get songs
 		songs = self.fileloader.load_mp3_from_folder(directory) #for each song
@@ -140,9 +145,9 @@ class mobius_py:
 
 def main():
 	try:
-		mobius = mobius_py()
-		mobius.main()
+		mob = mobius_py()
+		mob.main()
 	except Exception:
-		mobius.fileloader.delete_tempfile()
+		mob.fileloader.delete_tempfile()
 		e = sys.exc_info()[0]
 		write_to_page( "<p>Error: %s</p>" % e )
