@@ -32,7 +32,7 @@ class mobius_py:
 			self.fileloader.delete_tempfile()
 		else:
 			self.fileloader.delete_tempfile()
-		sys.exit(0)
+		exit(0)
 
 	def __init__(self, parts=500):
 		self.fileloader = file_manager.file_manager()
@@ -94,7 +94,7 @@ class mobius_py:
 		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, frags)
 		#song = self.fileloader.load_from_wav("temporaryOutput.wav")
 
-		self.fileloader.play_raw_data(wavedata, frags)
+		self.fileloader.play_raw_data(wavedata, frags, queue = True)
 
 		# play song. We need to allow the song to randomly jump via connections[]
 		#songFragments = self.fractureSong(song, connections)
