@@ -92,8 +92,10 @@ class file_manager(object):
 
 		#paly stream
 		while counter + chunk < len(rawdata):
-			stream.write(rawdata[counter:counter + chunk])
-			counter = counter + chunk
+			free = stream.get_write_available()
+			if free > chunk:
+				stream.write(rawdata[counter:counter + chunk])
+				counter = counter + chunk
 
 		#stop stream
 		stream.stop_stream()

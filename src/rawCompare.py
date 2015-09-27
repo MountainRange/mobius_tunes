@@ -76,7 +76,30 @@ class rawCompare:
 			for i in range(len(top)):
 				test.append(np.asarray(np.where(indexArr == top[i])).T[0].tolist())
 
-			return test
+			fragList = []
+		
+			fragDict = {test[0][0]: test[0][1]}
+
+			for i in range(len(test)):
+				fragList.append(datalist[test[i][0]] + datalist[test[i][1]])
+				fragDict[test[i][0]] = test[i][1]
+
+			print ("TEST")
+
+			test2 = datalist[0]
+			i = 1
+			while i < len(datalist):
+				test2 += datalist[i]
+				print (i)
+				if i in fragDict:
+					if random.randint(0, 1) == 1:
+						print ("YES")
+						i = fragDict[i]
+				i += 1
+
+			print ("TEST2")
+
+			return test2
 
 
 

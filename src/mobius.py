@@ -74,7 +74,7 @@ class mobius_py:
 		#
 		# Test modification
 
-		print (self.rawCompare.compare(copy.deepcopy(rawdata), 500))
+		frags = (self.rawCompare.compare(copy.deepcopy(rawdata), 500))
 
 		playList = []
 		playList.append(song)
@@ -84,10 +84,10 @@ class mobius_py:
 		sorted(connections, key = itemgetter(0))
 
 		# Write changes
-		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, rawdata)
+		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, frags)
 		song = self.fileloader.load_from_wav("temporaryOutput.wav")
 
-		self.fileloader.play_raw_data(wavedata, rawdata)
+		self.fileloader.play_raw_data(wavedata, frags)
 
 		# play song. We need to allow the song to randomly jump via connections[]
 		songFragments = self.fractureSong(song, connections)
