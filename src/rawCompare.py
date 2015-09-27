@@ -14,6 +14,7 @@ from pydub.playback import play
 from operator import itemgetter
 import matplotlib.pyplot as plt
 import progress_bar
+import warnings
 
 class rawCompare:
 	
@@ -128,9 +129,12 @@ class rawCompare:
 		rebuiltdata = b''
 		simMat = np.zeros((len(datalist),len(datalist)))
 		print ("CALCULATING")
+		bar = progress_bar.progress_bar(50)
 		for i in range(len(datalist)):
-			if i % 100 == 0 and i != 0:
-				print (str(i) + " parts processed.")
+			bar.update_bar(bar.get_value())
+			if i % 15 == 0 and i != 0:
+				#print (str(i) + " parts processed.")
+				bar.update_bar((i/chunksize/len(rawdatas))*50)
 			for j in range(len(datalist)):
 				if j in range(i-10, i+10):
 					simMat[i][j] = 0
@@ -145,7 +149,9 @@ class rawCompare:
 
 				compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
 
-				similarity = compmax / automax
+				with warnings.catch_warnings():
+					warnings.simplefilter("ignore")
+					similarity = compmax / automax
 
 				#print (automax)
 				#print (compmax)
@@ -165,6 +171,7 @@ class rawCompare:
 			#plt.show()
 
 			#rebuiltdata += bytes(a)
+		bar.complete()
 
 
 		print ("CALCULATED")
@@ -192,8 +199,6 @@ class rawCompare:
 		for i in range(len(test)):
 			fragList.append(datalist[test[i][0]] + datalist[test[i][1]])
 			fragDict[test[i][0]] = test[i][1]
-
-		print (fragDict)
 		
 		return fragDict, datalist
 

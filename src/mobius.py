@@ -99,16 +99,14 @@ class mobius_py:
 			if stopNum >= maxStop:
 				break
 			currentfrags += datalist[i]
-			print (i)
 			if i % self.parts == self.parts-1:
 				i -= self.parts-1
 			if i in fragDict:
-				if random.randint(0, 4) == 1:
-					print (len(currentfrags))
+				if random.randint(0, 4) == 1 and len(currengfrags) > 256000:
+					print ("JUMPED ADDED")
 					self.fileloader.play_raw_data(wavedata, currentfrags, queue = True)
-					time.sleep(10)
+					time.sleep((len(currengfrags)/256000)-1)
 					currentfrags = b''
-					print ("YES")
 					i = fragDict[i]
 			i += 1
 
