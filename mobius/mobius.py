@@ -75,7 +75,7 @@ class mobius_py:
 				print("Size of song chunks: " + (str) (chunksize))
 
 		if not os.path.isdir(directory):
-			print(directory + " was not found, specify a directory with -d <DIR>!")
+			print(directory + " was not found, specify a directory with -d <DIR>...")
 			exit(2)
 
 		# get songs
