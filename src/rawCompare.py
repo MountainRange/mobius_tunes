@@ -13,6 +13,7 @@ from pydub import AudioSegment
 from pydub.playback import play
 from operator import itemgetter
 import matplotlib.pyplot as plt
+import progress_bar
 
 class rawCompare:
 	
@@ -113,14 +114,16 @@ class rawCompare:
 
 		return test2
 
-	def compareAll(self, rawdatas, parts=100, chunksize=500, maxStop=None):
+	def compareAll(self, rawdatas, parts=100, chunksize=100, maxStop=None):
 		if maxStop == None:
 			maxStop = len(rawdatas)*500
+
 		datalist = []
 		for rawdata in rawdatas:
-			datalist.append(rawdata[0:(int(len(rawdata)/parts))])
+			datasize = int((int(len(rawdata)/parts))/2)*2
+			datalist.append(rawdata[0:datasize])
 			for i in range(1, parts):
-				datalist.append(rawdata[(int(len(rawdata)/parts)*(i)):(int(len(rawdata)/parts)*(i+1))])
+				datalist.append(rawdata[(datasize*(i)):(datasize*(i+1))])
 
 		rebuiltdata = b''
 		simMat = np.zeros((len(datalist),len(datalist)))
@@ -132,18 +135,8 @@ class rawCompare:
 				if j in range(i-10, i+10):
 					simMat[i][j] = 0
 					continue
-				try:
-					a = np.frombuffer(datalist[i], np.int16)
-					b = np.frombuffer(datalist[j], np.int16)
-				except:
-					try:
-						a = np.frombuffer(datalist[i]+b'\x00', np.int16)
-					except:
-						a = np.frombuffer(datalist[i], np.int16)
-					try:
-						b = np.frombuffer(datalist[j]+b'\x00', np.int16)
-					except:
-						b = np.frombuffer(datalist[j], np.int16)
+				a = np.frombuffer(datalist[i], np.int16)
+				b = np.frombuffer(datalist[j], np.int16)
 
 				a1 = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
 				b1 = copy.deepcopy(b[:chunksize]).astype(float)
@@ -186,7 +179,7 @@ class rawCompare:
 		simMat.sort()
 		simMat = simMat[::-1]
 		
-		top = simMat[:(1000*len(rawdatas))]
+		top = simMat[:(100*len(rawdatas))]
 
 		test = []
 
