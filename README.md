@@ -14,6 +14,7 @@ Or equivalent with your package manager!
 This project requires FFMPEG or avconv. [See this for help](https://ffmpeg.org/download.html)
 In order to install avconv on linux, run sudo apt-get install libav-tools
 
+This project also requires libav! Install with `apt-get install libavbin0 libavbin-dev`.
 
 Does NOT support windows unless ffmpeg is compiled.
 We recommend you run mobius-tunes run on linux! :smile:
