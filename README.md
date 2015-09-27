@@ -11,6 +11,8 @@ pip3 install pyglet
 ```
 Or equivalent with your package manager!
 
+This project requires FFMPEG or avconv. [See this for help](https://ffmpeg.org/download.html)
+
 
 Does NOT support windows unless ffmpeg is compiled.
 We recommend you run mobius-tunes run on linux! :smile:
