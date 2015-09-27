@@ -21,6 +21,7 @@ import rawCompare
 
 yes = set(['yes','y', 'ye', 'yah', 'ya'])
 no = set(['no','n', 'nah', 'na'])
+__version__ = '0.1.0'
 
 class mobius_py:
 
@@ -56,6 +57,7 @@ class mobius_py:
 
 	def main(self):
 		# initialize some variables
+		cl = command_line_flags.command_line_flags()
 		chunksize = 500
 		directory = "testmusic"
 		threshold = 1.0
@@ -136,9 +138,8 @@ class mobius_py:
 		# Do not remove unless debugging
 		self.signal_handler(signal.SIGINT, None)
 
-if __name__ == "__main__":
+def main():
 	try:
-		cl = command_line_flags.command_line_flags()
 		mobius = mobius_py()
 		mobius.main()
 	except Exception:
