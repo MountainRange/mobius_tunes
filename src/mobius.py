@@ -57,7 +57,7 @@ class mobius_py:
 
 	def main(self):
 		# initialize some variables
-		chunksize = 500
+		chunksize = 100
 		directory = "testmusic"
 		threshold = 1.0
 		opts = cl.get_arguments()

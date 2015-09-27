@@ -19,7 +19,7 @@ from scipy import signal
 
 class rawCompare:
 	
-	def compare(self, rawdata, parts, chunksize=200, threshold=1, maxStop=None):
+	def compare(self, rawdata, parts, chunksize=50, threshold=1, maxStop=None):
 		if maxStop == None:
 			maxStop = 500
 		datalist = [rawdata[0:(int(len(rawdata)/parts))]]
