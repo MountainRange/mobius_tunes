@@ -56,11 +56,24 @@ class mobius_py:
 		return fragments
 
 	def main(self):
+		# initialize some variables
+		chunksize = 500
+		directory = "testmusic"
+		threshold = 1.0
+		opts = cl.get_arguments()
+		for opt in opts:
+			if opt[0] == '-d':
+				directory = opt[1]
+				print("Directory: " + directory)
+			elif opt[0] == '-t':
+				threshold = (float) (opt[1])
+				print("Similarity threshold: " + (str) (threshold))
+			elif opt[0] == '-c':
+				chunksize = (int) (opt[1])
+				print("Size of song chunks: " + (str) (chunksize))
+
 		# get songs
-		songs = self.fileloader.load_mp3_from_folder("testmusic") #for each song
-		if not cl.get_directory() == 0:
-			songs = self.fileloader.load_mp3_from_folder(cl.get_directory())
-			print("Directory: " + cl.get_directory())
+		songs = self.fileloader.load_mp3_from_folder(directory) #for each song
 
 		self.fileloader.generate_tempfile()
 		print(self.fileloader.get_tempfile())
@@ -85,7 +98,7 @@ class mobius_py:
 		#
 		# Test modification
 
-		fragDict, datalist = self.rawCompare.compareAll(copy.deepcopy(rawdatas), self.parts)
+		fragDict, datalist = self.rawCompare.compareAll(copy.deepcopy(rawdatas), self.parts, chunksize, threshold)
 
 		currentfrags = datalist[0]
 		i = 1
@@ -112,10 +125,6 @@ class mobius_py:
 
 		playList = []
 		#playList.append(song)
-
-		# load connections list with song links
-		connections = self.loadConnections(playList)
-		sorted(connections, key = itemgetter(0))
 
 		# Write changes
 		#self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, frags)

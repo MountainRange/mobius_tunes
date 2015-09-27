@@ -19,7 +19,7 @@ from scipy import signal
 
 class rawCompare:
 	
-	def compare(self, rawdata, parts=100, chunksize=200, maxStop=None):
+	def compare(self, rawdata, parts, chunksize=200, threshold=1, maxStop=None):
 		if maxStop == None:
 			maxStop = 500
 		datalist = [rawdata[0:(int(len(rawdata)/parts))]]
@@ -42,7 +42,7 @@ class rawCompare:
 				a1 = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
 				b1 = copy.deepcopy(b[:chunksize]).astype(float)
 
-				automax = np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
+				automax = threshold * np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
 
 				compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
 
@@ -116,7 +116,7 @@ class rawCompare:
 
 		return test2
 
-	def compareAll(self, rawdatas, parts=100, chunksize=100, maxStop=None):
+	def compareAll(self, rawdatas, parts=100, chunksize=100, threshold=1.0, maxStop=None):
 		if maxStop == None:
 			maxStop = len(rawdatas)*500
 
@@ -146,7 +146,6 @@ class rawCompare:
 
 				doublechunk = chunksize * 2
 				halfchunk = chunksize/2
-				
 
 				with warnings.catch_warnings():
 					warnings.simplefilter("ignore")
