@@ -82,7 +82,7 @@ class mobius_py:
 		#
 		# Test modification
 
-		fragDict, datalist = self.rawCompare.compareAll(copy.deepcopy(rawdatas), parts)
+		fragDict, datalist = self.rawCompare.compareAll(copy.deepcopy(rawdatas), self.parts)
 
 		currentfrags = datalist[0]
 		i = 1
@@ -97,8 +97,8 @@ class mobius_py:
 				break
 			currentfrags += datalist[i]
 			print (i)
-			if i % parts == parts-1:
-				i -= parts-1
+			if i % self.parts == self.parts-1:
+				i -= self.parts-1
 			if i in fragDict:
 				if random.randint(0, 4) == 1:
 					print (len(currentfrags))
