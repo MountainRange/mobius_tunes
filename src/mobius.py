@@ -16,7 +16,6 @@ import time
 from pydub import AudioSegment
 from pydub.playback import play
 from operator import itemgetter
-import matplotlib.pyplot as plt
 import rawCompare
 
 
