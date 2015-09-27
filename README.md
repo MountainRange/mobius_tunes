@@ -25,7 +25,7 @@ We recommend you run mobius-tunes run on linux! :smile:
 
 `./mobius.py [-d directory] [-c chunksize] [-t threshold]`
 
-Mobius Tunes will then remix the files in the folder specified, until you kill it with `^C`. We recommend you use the mp3 files we have provided in the testmusic folder with our project (use -d to specify the directory), but you are free to fill the with similar sounding songs of your choice. Be aware that one of the provided mp3 files is Rick Astley, so with this forewarning do not consider it a rick roll when it plays.
+Mobius Tunes will then remix the files in the folder specified, until you kill it with `^C`. If you don't know what songs you want our project to run with, we recommend complementing the provided funkychunk.mp3 with the Pokemon theme song and Never Gonna Give You Up. These three songs interact nicely in Mobius Tunes.
 
 Enjoy!
 
