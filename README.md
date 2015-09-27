@@ -6,10 +6,8 @@ This is our submission for HackGT 2015. Mobius Tunes is inspired by [Infinite Ju
 pip3 install wave
 pip3 install pydub
 pip3 install numpy
-pip3 install matplotlib
 pip3 install pyglet
 ```
 
 Run it when its done :smile:
 
-https://docs.python.org/3.2/library/audioop.html probably has useful things for audio manipulation
