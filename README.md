@@ -15,7 +15,8 @@ Or equivalent with your package manager!
 Does NOT support windows unless ffmpeg is compiled.
 We recommend you run mobius-tunes run on linux! :smile:
 
-Usage:
+### Usage
+
 `./mobius.py`  Runs mobius.py w/ default settings looking for songs in the testmusic folder
 
 `./mobius.py [-d directory] [-c chunksize] [-t threshold]`
