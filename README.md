@@ -16,7 +16,8 @@ Does NOT support windows unless ffmpeg is compiled.
 We recommend you run mobius-tunes run on linux! :smile:
 
 Usage:
-`./mobius.py  # Runs mobius.py w/ default settings looking for songs in the testmusic folder`
+`./mobius.py`  Runs mobius.py w/ default settings looking for songs in the testmusic folder
+
 `./mobius.py [-d directory] [-c chunksize] [-t threshold]`
 
 Mobius Tunes will then remix the files in the folder specified, until you kill it with `^C`.
