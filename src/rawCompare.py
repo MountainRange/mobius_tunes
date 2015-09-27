@@ -138,7 +138,7 @@ class rawCompare:
 				bar.update_bar((i/chunksize/len(rawdatas))*50)
 			for j in range(len(datalist)):
 				chunki = chunksize * i
-				if (j in range(i-10, i+10)) or (j > chunki and j < (chunki)+10) or (j > (chunki)+chunksize-10 and j < (chunki)+chunksize):
+				if (j in range(i-10, i+10)) or (j > chunki and j < (chunki)+25) or (j > (chunki)+chunksize-25 and j < (chunki)+chunksize):
 					simMat[i][j] = 0
 					continue
 				a = np.frombuffer(datalist[i], np.int16)
