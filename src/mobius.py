@@ -56,7 +56,7 @@ class mobius_py:
 
 	def main(self):
 		# get songs
-		song = self.fileloader.load_from_mp3("testmusic/funkychunk.mp3", useTemp = False) #for each song
+		song = self.fileloader.load_from_mp3("testmusic/billy.mp3", useTemp = False) #for each song
 
 		self.fileloader.generate_tempfile()
 		print(self.fileloader.get_tempfile())
@@ -74,7 +74,7 @@ class mobius_py:
 		#
 		# Test modification
 
-		frags = (self.rawCompare.compare(copy.deepcopy(rawdata), 500))
+		frags = (self.rawCompare.compare(copy.deepcopy(rawdata), 500, True))
 
 		playList = []
 		playList.append(song)
