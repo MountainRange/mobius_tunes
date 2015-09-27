@@ -97,5 +97,10 @@ class mobius_py:
 		self.signal_handler(signal.SIGINT, None)
 
 if __name__ == "__main__":
-	mobius = mobius_py()
-	mobius.main()
+	try:
+		mobius = mobius_py()
+		mobius.main()
+	except:
+		mobius.fileloader.delete_tempfile()
+		e = sys.exc_info()[0]
+		write_to_page( "<p>Error: %s</p>" % e )
