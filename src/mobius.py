@@ -102,7 +102,7 @@ class mobius_py:
 			if i % self.parts == self.parts-1:
 				i -= self.parts-1
 			if i in fragDict:
-				if (random.randint(0, 4) == 1 and len(currentfrags) > 256000) or len(currengfrags) > 2560000:
+				if (random.randint(0, 4) == 1 and len(currentfrags) > 256000) or len(currentfrags) > 2560000:
 					print ("JUMPED ADDED")
 					self.fileloader.play_raw_data(wavedata, currentfrags, queue = True)
 					time.sleep((len(currentfrags)/256000)-1)
