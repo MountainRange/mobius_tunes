@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 class rawCompare:
 	
-	def compare(self, rawdata, parts=100, chunksize=200, maxStop=None):
+	def compare(self, rawdata, parts, chunksize=200, threshold=1, maxStop=None):
 		if maxStop == None:
 			maxStop = 500
 		datalist = [rawdata[0:(int(len(rawdata)/parts))]]
@@ -39,7 +39,7 @@ class rawCompare:
 				a1 = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
 				b1 = copy.deepcopy(b[:chunksize]).astype(float)
 
-				automax = np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
+				automax = threshold * np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
 
 				compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
 
@@ -113,7 +113,7 @@ class rawCompare:
 
 		return test2
 
-	def compareAll(self, rawdatas, parts=100, chunksize=500, maxStop=None):
+	def compareAll(self, rawdatas, parts, chunksize=500, threshold=1.0, maxStop=None):
 		if maxStop == None:
 			maxStop = len(rawdatas)*500
 		datalist = []
@@ -145,10 +145,10 @@ class rawCompare:
 					except:
 						b = np.frombuffer(datalist[j], np.int16)
 
-				a1 = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
+				a1 = copy.deepcopy(a[len(a)-(int) (chunksize):]).astype(float)
 				b1 = copy.deepcopy(b[:chunksize]).astype(float)
 
-				automax = np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
+				automax = threshold * np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
 
 				compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
 
