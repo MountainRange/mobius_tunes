@@ -116,7 +116,7 @@ class rawCompare:
 
 		return test2
 
-	def compareAll(self, rawdatas, parts=100, chunksize=100, threshold=1.0, maxStop=None):
+	def compareAll(self, rawdatas, parts=100, chunksize=500, threshold=1.0, maxStop=None):
 		if maxStop == None:
 			maxStop = len(rawdatas)*500
 
