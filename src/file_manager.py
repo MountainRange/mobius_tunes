@@ -6,7 +6,7 @@ import random
 import os
 import tempfile
 import file_manager
-import pyaudio
+import pyglet
 from pydub import AudioSegment
 from pydub.playback import play
 from operator import itemgetter
@@ -77,29 +77,13 @@ class file_manager(object):
 		tempWrite.setnframes(waveparams[3])
 		tempWrite.writeframesraw(rawdata)
 
+	def play_wav_file(self, path, useTemp = True):
+		prefix = self.__sanitize__(useTemp)
+		sound = pyglet.media.load(prefix + path, streaming=False)
+		sound.play();
+
 	def play_raw_data(self, waveparams, rawdata):
+		filename = str(random.randint(0, 99999999))
 		#open a wav format music
-		f = wave.open(r"/usr/share/sounds/alsa/Rear_Center.wav","rb")
-		#instantiate PyAudio
-		p = pyaudio.PyAudio()
-		#open stream
-		stream = p.open(format = p.get_format_from_width(waveparams[1]),
-						channels = waveparams[0],
-						rate = waveparams[2],
-						output = True)
-		#read data
-		counter = 0
-
-		#paly stream
-		while counter + chunk < len(rawdata):
-			free = stream.get_write_available()
-			if free > chunk:
-				stream.write(rawdata[counter:counter + chunk])
-				counter = counter + chunk
-
-		#stop stream
-		stream.stop_stream()
-		stream.close()
-
-		#close PyAudio
-		p.terminate()
+		self.write_raw_to_wav(self.get_tempfile() + filename, waveparams, rawdata, False)
+		self.play_wav_file(self.get_tempfile() + filename, False)
