@@ -16,8 +16,6 @@ import numpy.fft as npf
 import copy
 import time
 import os
-from pydub import AudioSegment
-from pydub.playback import play
 from operator import itemgetter
 
 yes = set(['yes','y', 'ye', 'yah', 'ya'])
@@ -79,7 +77,7 @@ class mobius_py:
 			exit(2)
 
 		# get songs
-		songs = self.fileloader.load_mp3_from_folder(directory) #for each song
+		songs = self.fileloader.load_raw_mp3_from_folder(directory) #for each song
 
 		self.fileloader.generate_tempfile()
 		print(self.fileloader.get_tempfile())
@@ -91,10 +89,10 @@ class mobius_py:
 		num = 0
 		for song in songs:
 			num += 1
-			filename = self.fileloader.write_to_wav("filename" + str(num) + ".wav", song)
+			filename = self.fileloader.write_raw_to_wav("filename" + str(num) + ".wav", song[0], song[1])
 
 			# Get only last bit of filename. If this errors, no match!
-			match = re.compile("[^/\\\\]*$").search(filename.name).group()
+			match = re.compile("[^/\\\\]*$").search(filename).group()
 
 
 			wavedata, rawdata = self.fileloader.get_raw_from_wav(match)

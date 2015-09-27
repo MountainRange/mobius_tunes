@@ -12,8 +12,6 @@ import tempfile
 import numpy as np
 import numpy.fft as npf
 import copy
-from pydub import AudioSegment
-from pydub.playback import play
 from operator import itemgetter
 import warnings
 
