@@ -9,14 +9,12 @@ import file_manager
 import numpy as np
 import numpy.fft as npf
 import copy
-from pydub import AudioSegment
-from pydub.playback import play
 from operator import itemgetter
 import progress_bar
 import warnings
 
 class rawCompare:
-	
+
 	def compare(self, rawdata, parts, chunksize=200, threshold=1, maxStop=None):
 		if maxStop == None:
 			maxStop = 500
