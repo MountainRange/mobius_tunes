@@ -56,28 +56,35 @@ class mobius_py:
 
 	def main(self):
 		# get songs
-		song = self.fileloader.load_from_mp3("testmusic", useTemp = False) #for each song
+		songs = self.fileloader.load_mp3_from_folder("testmusic") #for each song
 
 		self.fileloader.generate_tempfile()
 		print(self.fileloader.get_tempfile())
 
 		# Write mp3 to wav
-		filename = self.fileloader.write_to_wav("filename.wav", song)
+		filenames = []
+		rawdatas = []
+		wavedata = b''
+		num = 0
+		for song in songs:
+			num += 1
+			filename = self.fileloader.write_to_wav("filename" + str(num) + ".wav", song)
 
-		# Get only last bit of filename. If this errors, no match!
-		match = re.compile("[^/\\\\]*$").search(filename.name).group()
+			# Get only last bit of filename. If this errors, no match!
+			match = re.compile("[^/\\\\]*$").search(filename.name).group()
 
 
-		wavedata, rawdata = self.fileloader.get_raw_from_wav(match)
+			wavedata, rawdata = self.fileloader.get_raw_from_wav(match)
+			rawdatas.append(rawdata)
 
 		# PERFORM SOME CHANGES
 		#
 		# Test modification
 
-		frags = (self.rawCompare.compare(copy.deepcopy(rawdata), 500))
+		frags = (self.rawCompare.compareAll(copy.deepcopy(rawdatas), 100))
 
 		playList = []
-		playList.append(song)
+		#playList.append(song)
 
 		# load connections list with song links
 		connections = self.loadConnections(playList)
@@ -85,12 +92,12 @@ class mobius_py:
 
 		# Write changes
 		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, frags)
-		song = self.fileloader.load_from_wav("temporaryOutput.wav")
+		#song = self.fileloader.load_from_wav("temporaryOutput.wav")
 
 		self.fileloader.play_raw_data(wavedata, frags)
 
 		# play song. We need to allow the song to randomly jump via connections[]
-		songFragments = self.fractureSong(song, connections)
+		#songFragments = self.fractureSong(song, connections)
 		# play(song)
 
 		# Do not remove unless debugging
