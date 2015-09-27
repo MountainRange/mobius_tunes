@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+from mobius.file_manager import file_manager
+from mobius.command_line_flags import command_line_flags
+from mobius.rawCompare import rawCompare
+
 import signal
 import sys
 import wave
@@ -7,20 +11,16 @@ import re
 import audioop
 import random
 import tempfile
-import file_manager
-import command_line_flags
 import numpy as np
 import numpy.fft as npf
 import copy
 import time
-from pydub import AudioSegment
-from pydub.playback import play
+import os
 from operator import itemgetter
-import rawCompare
-
 
 yes = set(['yes','y', 'ye', 'yah', 'ya'])
 no = set(['no','n', 'nah', 'na'])
+__version__ = '0.1.0'
 
 class mobius_py:
 
@@ -35,8 +35,8 @@ class mobius_py:
 		exit(0)
 
 	def __init__(self, parts=100):
-		self.fileloader = file_manager.file_manager()
-		self.rawCompare = rawCompare.rawCompare()
+		self.fileloader = file_manager()
+		self.rawCompare = rawCompare()
 		self.parts = parts
 		signal.signal(signal.SIGINT, self.signal_handler)
 
@@ -56,8 +56,9 @@ class mobius_py:
 
 	def main(self):
 		# initialize some variables
+		cl = command_line_flags()
 		chunksize = 500
-		directory = "testmusic"
+		directory = "mobius/testmusic"
 		threshold = 1.0
 		opts = cl.get_arguments()
 		for opt in opts:
@@ -71,8 +72,12 @@ class mobius_py:
 				chunksize = (int) (opt[1])
 				print("Size of song chunks: " + (str) (chunksize))
 
+		if not os.path.isdir(directory):
+			print(directory + " was not found, specify a directory with -d <DIR>...")
+			exit(2)
+
 		# get songs
-		songs = self.fileloader.load_mp3_from_folder(directory) #for each song
+		songs = self.fileloader.load_raw_mp3_from_folder(directory) #for each song
 
 		self.fileloader.generate_tempfile()
 		print(self.fileloader.get_tempfile())
@@ -84,10 +89,10 @@ class mobius_py:
 		num = 0
 		for song in songs:
 			num += 1
-			filename = self.fileloader.write_to_wav("filename" + str(num) + ".wav", song)
+			filename = self.fileloader.write_raw_to_wav("filename" + str(num) + ".wav", song[0], song[1])
 
 			# Get only last bit of filename. If this errors, no match!
-			match = re.compile("[^/\\\\]*$").search(filename.name).group()
+			match = re.compile("[^/\\\\]*$").search(filename).group()
 
 
 			wavedata, rawdata = self.fileloader.get_raw_from_wav(match)
@@ -136,12 +141,15 @@ class mobius_py:
 		# Do not remove unless debugging
 		self.signal_handler(signal.SIGINT, None)
 
-if __name__ == "__main__":
+def main():
 	try:
-		cl = command_line_flags.command_line_flags()
-		mobius = mobius_py()
-		mobius.main()
+		mob = mobius_py()
+		mob.main()
 	except Exception:
-		mobius.fileloader.delete_tempfile()
+		mob.fileloader.delete_tempfile()
 		e = sys.exc_info()[0]
 		write_to_page( "<p>Error: %s</p>" % e )
+
+if __name__ == '__main__':
+    main()
+

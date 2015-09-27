@@ -1,3 +1,7 @@
+
+from mobius.file_manager import file_manager
+from mobius.progress_bar import progress_bar
+
 import signal
 import sys
 import wave
@@ -5,18 +9,14 @@ import re
 import audioop
 import random
 import tempfile
-import file_manager
 import numpy as np
 import numpy.fft as npf
 import copy
-from pydub import AudioSegment
-from pydub.playback import play
 from operator import itemgetter
-import progress_bar
 import warnings
 
 class rawCompare:
-	
+
 	def compare(self, rawdata, parts, chunksize=200, threshold=1, maxStop=None):
 		if maxStop == None:
 			maxStop = 500
@@ -129,7 +129,7 @@ class rawCompare:
 		rebuiltdata = b''
 		simMat = np.zeros((len(datalist),len(datalist)))
 		print ("CALCULATING")
-		bar = progress_bar.progress_bar(50)
+		bar = progress_bar(50)
 		for i in range(len(datalist)):
 			bar.update_bar(bar.get_value())
 			if i % 15 == 0 and i != 0:

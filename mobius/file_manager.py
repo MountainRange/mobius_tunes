@@ -5,11 +5,8 @@ import audioop
 import random
 import os
 import tempfile
-import file_manager
 import glob
 import pyglet
-from pydub import AudioSegment
-from pydub.playback import play
 from operator import itemgetter
 import time
 
@@ -52,14 +49,27 @@ class file_manager(object):
 		return self.temporaryfile
 
 
-	def load_from_mp3(self, path, useTemp = True):
+	def load_raw_from_mp3(self, path, useTemp = True):
 		prefix = self.__sanitize__(useTemp)
-		return AudioSegment.from_mp3(prefix + path)
+		music = pyglet.media.load(prefix + path)
+		byteList = []
+		toAppend = music.get_audio_data('')
 
-	def load_mp3_from_folder(self, path):
+		while toAppend != None:
+			if (toAppend.get_string_data() != None):
+				byteList.append(toAppend.get_string_data())
+			toAppend = music.get_audio_data('')
+
+		toReturn = b''.join(byteList)
+
+
+		return (music.audio_format.channels, int(music.audio_format.sample_size / 8),
+				music.audio_format.sample_rate, int(len(toReturn) / 4)), toReturn
+
+	def load_raw_mp3_from_folder(self, path):
 		toReturn = []
 		for f in glob.glob(path + "/*.mp3"):
-			toReturn.append(AudioSegment.from_mp3(f))
+			toReturn.append(self.load_raw_from_mp3(f, useTemp = False))
 		return toReturn
 
 
@@ -74,18 +84,17 @@ class file_manager(object):
 
 		return toopen.getparams(), toopen.readframes(toopen.getnframes())
 
-	def load_from_wav(self, path, useTemp = True):
-		prefix = self.__sanitize__(useTemp)
-		return AudioSegment.from_wav(prefix +  path)
-
 	def write_raw_to_wav(self, path, waveparams, rawdata, useTemp = True):
 		prefix = self.__sanitize__(useTemp)
 		tempWrite = wave.open(prefix +  path, mode = 'wb')
 		tempWrite.setnchannels(waveparams[0])
-		tempWrite.setsampwidth(waveparams[1])
+		# tempWrite.setsampwidth(waveparams[1])
+		tempWrite.setsampwidth(2)
 		tempWrite.setframerate(waveparams[2])
 		tempWrite.setnframes(waveparams[3])
 		tempWrite.writeframesraw(rawdata)
+
+		return prefix + path
 
 	def play_wav_file(self, path, useTemp = True):
 		prefix = self.__sanitize__(useTemp)

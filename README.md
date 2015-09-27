@@ -19,11 +19,16 @@ This project also requires libav! Install with `apt-get install libavbin0 libavb
 Does NOT support windows unless ffmpeg is compiled.
 We recommend you run mobius-tunes run on linux! :smile:
 
+Install this package with
+`pip3 install mobius-tunes`
+
 ### Usage
 
-`./mobius.py`  Runs mobius.py w/ default settings looking for songs in the testmusic folder
+`mobius-tunes`  Runs mobius.py w/ default settings looking for songs in the testmusic folder
 
-`./mobius.py [-d directory] [-c chunksize] [-t threshold]`
+`mobius-tunes [-d directory] [-c chunksize] [-t threshold]`
+
+`./runner.py` Runs from source repository
 
 Mobius Tunes will then remix the files in the folder specified, until you kill it with `^C`. If you don't know what songs you want our project to run with, we recommend complementing the provided funkychunk.mp3 with the Pokemon theme song and Never Gonna Give You Up. These three songs interact nicely in Mobius Tunes.
 
