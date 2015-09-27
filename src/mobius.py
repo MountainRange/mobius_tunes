@@ -35,7 +35,7 @@ class mobius_py:
 			self.fileloader.delete_tempfile()
 		exit(0)
 
-	def __init__(self, parts=500):
+	def __init__(self, parts=100):
 		self.fileloader = file_manager.file_manager()
 		self.rawCompare = rawCompare.rawCompare()
 		self.parts = parts
@@ -82,12 +82,12 @@ class mobius_py:
 		#
 		# Test modification
 
-		fragDict, datalist = self.rawCompare.compareAll(copy.deepcopy(rawdatas), 100)
+		fragDict, datalist = self.rawCompare.compareAll(copy.deepcopy(rawdatas), parts)
 
 		currentfrags = datalist[0]
 		i = 1
-		stopNum = 0;
-		maxStop = 500
+		stopNum = 0
+		maxStop = 100000
 		print ("CALCULATING JUMPS")
 		while i < len(datalist):
 			stopNum += 1
@@ -97,8 +97,8 @@ class mobius_py:
 				break
 			currentfrags += datalist[i]
 			print (i)
-			if i % 500 == 499:
-				i -= 499
+			if i % parts == parts-1:
+				i -= parts-1
 			if i in fragDict:
 				if random.randint(0, 4) == 1:
 					print (len(currentfrags))
