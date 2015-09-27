@@ -12,7 +12,6 @@ import copy
 from pydub import AudioSegment
 from pydub.playback import play
 from operator import itemgetter
-import matplotlib.pyplot as plt
 import progress_bar
 import warnings
 
@@ -55,6 +54,7 @@ class rawCompare:
 				else:
 					simMat[i][j] = 0
 
+			# Requires import of matplot lib as plt
 			#plt.plot(npf.ifft(npf.fft(a1)) * npf.fft(a1))
 			#plt.plot(npf.ifft(npf.fft(a1)) * npf.fft(b1))
 
@@ -75,7 +75,7 @@ class rawCompare:
 		simMat = simMat.ravel()
 		simMat.sort()
 		simMat = simMat[::-1]
-		
+
 		top = simMat[:100]
 
 		test = []
@@ -84,7 +84,7 @@ class rawCompare:
 			test.append(np.asarray(np.where(indexArr == top[i])).T[0].tolist())
 
 		fragList = []
-	
+
 		fragDict = {test[0][0]: test[0][1]}
 
 		for i in range(len(test)):
@@ -161,6 +161,7 @@ class rawCompare:
 				else:
 					simMat[i][j] = 0
 
+			# Requires inport of matplot lib as plt
 			#plt.plot(npf.ifft(npf.fft(a1)) * npf.fft(a1))
 			#plt.plot(npf.ifft(npf.fft(a1)) * npf.fft(b1))
 
@@ -185,7 +186,7 @@ class rawCompare:
 		simMat = simMat.ravel()
 		simMat.sort()
 		simMat = simMat[::-1]
-		
+
 		top = simMat[:(100*len(rawdatas))]
 
 		test = []
@@ -193,13 +194,13 @@ class rawCompare:
 		for i in range(len(top)):
 			test.append(np.asarray(np.where(indexArr == top[i])).T[0].tolist())
 		fragList = []
-	
+
 		fragDict = {test[0][0]: test[0][1]}
 
 		for i in range(len(test)):
 			fragList.append(datalist[test[i][0]] + datalist[test[i][1]])
 			fragDict[test[i][0]] = test[i][1]
-		
+
 		return fragDict, datalist
 
 
