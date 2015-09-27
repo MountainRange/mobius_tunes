@@ -29,7 +29,7 @@ class rawCompare:
 			if i % 100 == 0 and i != 0:
 				print (str(i) + " parts processed.")
 			for j in range(len(datalist)):
-				if j == i:
+				if j in range(i-10, i+10):
 					simMat[i][j] = 0
 					continue
 
@@ -129,7 +129,7 @@ class rawCompare:
 			if i % 100 == 0 and i != 0:
 				print (str(i) + " parts processed.")
 			for j in range(len(datalist)):
-				if j == i:
+				if j in range(i-10, i+10):
 					simMat[i][j] = 0
 					continue
 				a = np.frombuffer(datalist[i], np.int8)
@@ -174,7 +174,7 @@ class rawCompare:
 		simMat.sort()
 		simMat = simMat[::-1]
 		
-		top = simMat[:1000]
+		top = simMat[:(100*len(rawdatas))]
 
 		test = []
 
@@ -187,32 +187,8 @@ class rawCompare:
 		for i in range(len(test)):
 			fragList.append(datalist[test[i][0]] + datalist[test[i][1]])
 			fragDict[test[i][0]] = test[i][1]
-
-		print ("TEST")
-
-		test2 = datalist[0]
-		i = 1
-		stopNum = 0;
-		print ("CALCULATING JUMPS")
-		while i < len(datalist):
-			stopNum += 1
-			if stopNum == int(maxStop / 2):
-				print ("50% DONE")
-			if stopNum >= maxStop:
-				break
-			test2 += datalist[i]
-			print (i)
-			if i % 500 == 499:
-				i -= 499
-			if i in fragDict:
-				if random.randint(0, 4) == 1:
-					print ("YES")
-					i = fragDict[i]
-			i += 1
-
-		print ("TEST2")
-
-		return test2
+		
+		return fragDict, datalist
 
 
 

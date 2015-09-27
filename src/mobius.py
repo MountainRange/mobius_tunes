@@ -12,6 +12,7 @@ import command_line_flags
 import numpy as np
 import numpy.fft as npf
 import copy
+import time
 from pydub import AudioSegment
 from pydub.playback import play
 from operator import itemgetter
@@ -81,7 +82,31 @@ class mobius_py:
 		#
 		# Test modification
 
-		frags = (self.rawCompare.compareAll(copy.deepcopy(rawdatas), 100))
+		fragDict, datalist = self.rawCompare.compareAll(copy.deepcopy(rawdatas), 100)
+
+		currentfrags = datalist[0]
+		i = 1
+		stopNum = 0;
+		maxStop = 500
+		print ("CALCULATING JUMPS")
+		while i < len(datalist):
+			stopNum += 1
+			if stopNum == int(maxStop / 2):
+				print ("50% DONE")
+			if stopNum >= maxStop:
+				break
+			currentfrags += datalist[i]
+			print (i)
+			if i % 500 == 499:
+				i -= 499
+			if i in fragDict:
+				self.fileloader.play_raw_data(wavedata, currentfrags, queue = True)
+				time.sleep(10)
+				currentfrags = b''
+				if random.randint(0, 4) == 1:
+					print ("YES")
+					i = fragDict[i]
+			i += 1
 
 		playList = []
 		#playList.append(song)
@@ -91,10 +116,8 @@ class mobius_py:
 		sorted(connections, key = itemgetter(0))
 
 		# Write changes
-		self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, frags)
+		#self.fileloader.write_raw_to_wav("temporaryOutput.wav", wavedata, frags)
 		#song = self.fileloader.load_from_wav("temporaryOutput.wav")
-
-		self.fileloader.play_raw_data(wavedata, frags, queue = True)
 
 		# play song. We need to allow the song to randomly jump via connections[]
 		#songFragments = self.fractureSong(song, connections)
