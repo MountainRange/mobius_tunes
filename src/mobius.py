@@ -8,6 +8,7 @@ import audioop
 import random
 import tempfile
 import file_manager
+import command_line_flags
 import numpy as np
 import numpy.fft as npf
 import copy
@@ -18,8 +19,8 @@ import matplotlib.pyplot as plt
 import rawCompare
 
 
-yes = set(['yes','y', 'ye'])
-no = set(['no','n'])
+yes = set(['yes','y', 'ye', 'yah', 'ya'])
+no = set(['no','n', 'nah', 'na'])
 
 class mobius_py:
 
@@ -31,7 +32,6 @@ class mobius_py:
 			self.fileloader.delete_tempfile()
 		else:
 			self.fileloader.delete_tempfile()
-
 		sys.exit(0)
 
 	def __init__(self, parts=500):
@@ -98,6 +98,7 @@ class mobius_py:
 
 if __name__ == "__main__":
 	try:
+		command = command_line_flags.command_line_flags()
 		mobius = mobius_py()
 		mobius.main()
 	except:
