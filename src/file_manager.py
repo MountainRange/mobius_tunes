@@ -6,6 +6,7 @@ import random
 import os
 import tempfile
 import file_manager
+import glob
 import pyglet
 from pydub import AudioSegment
 from pydub.playback import play
@@ -52,6 +53,13 @@ class file_manager(object):
 	def load_from_mp3(self, path, useTemp = True):
 		prefix = self.__sanitize__(useTemp)
 		return AudioSegment.from_mp3(prefix + path)
+
+	def load_mp3_from_folder(self, path):
+		toReturn = []
+		for f in glob.glob(path + "/*.mp3"):
+			toReturn.append(AudioSegment.from_mp3(f))
+		return toReturn
+
 
 	def write_to_wav(self, path, toWrite, useTemp = True): #
 		prefix = self.__sanitize__(useTemp)
