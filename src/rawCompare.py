@@ -137,29 +137,34 @@ class rawCompare:
 				#print (str(i) + " parts processed.")
 				bar.update_bar((i/chunksize/len(rawdatas))*50)
 			for j in range(len(datalist)):
-				if (j in range(i-10, i+10)) or (j > chunksize*i and j < (chunksize*i)+10) or (j > (chunksize*i)+chunksize-10 and j < (chunksize*i)+chunksize):
+				chunki = chunksize * i
+				if (j in range(i-10, i+10)) or (j > chunki and j < (chunki)+10) or (j > (chunki)+chunksize-10 and j < (chunki)+chunksize):
 					simMat[i][j] = 0
 					continue
 				a = np.frombuffer(datalist[i], np.int16)
 				b = np.frombuffer(datalist[j], np.int16)
 
-				apre = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
-				a1 = np.zeros(chunksize * 2)
-				a1[chunksize/2:chunksize/2+chunksize] = apre
-				bpre = copy.deepcopy(b[:chunksize]).astype(float)
-				b1 = np.zeros(chunksize * 2)
-				b1[chunksize/2:chunksize/2+chunksize] = bpre
-
-				#automax = np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
-				c = signal.fftconvolve(b1, apre[::-1], mode='valid')
-				automax = np.max(c)
-
-				#compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
-				d = signal.fftconvolve(a1, apre[::-1], mode='valid')
-				compmax = np.max(d)
+				doublechunk = chunksize * 2
+				halfchunk = chunksize/2
+				
 
 				with warnings.catch_warnings():
 					warnings.simplefilter("ignore")
+					apre = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
+					a1 = np.zeros(doublechunk)
+					a1[halfchunk:halfchunk+chunksize] = apre
+					bpre = copy.deepcopy(b[:chunksize]).astype(float)
+					b1 = np.zeros(doublechunk)
+					b1[halfchunk:halfchunk+chunksize] = bpre
+
+					#automax = np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
+					c = signal.fftconvolve(b1, apre[::-1], mode='valid')
+					automax = np.max(c)
+
+					#compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
+					d = signal.fftconvolve(a1, apre[::-1], mode='valid')
+					compmax = np.max(d)
+
 					similarity = compmax / automax
 
 				#print (automax)
