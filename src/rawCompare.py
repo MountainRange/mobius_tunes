@@ -113,7 +113,7 @@ class rawCompare:
 
 		return test2
 
-	def compareAll(self, rawdatas, parts=100, chunksize=200, maxStop=None):
+	def compareAll(self, rawdatas, parts=100, chunksize=500, maxStop=None):
 		if maxStop == None:
 			maxStop = len(rawdatas)*500
 		datalist = []
@@ -132,8 +132,18 @@ class rawCompare:
 				if j in range(i-10, i+10):
 					simMat[i][j] = 0
 					continue
-				a = np.frombuffer(datalist[i], np.int8)
-				b = np.frombuffer(datalist[j], np.int8)
+				try:
+					a = np.frombuffer(datalist[i], np.int16)
+					b = np.frombuffer(datalist[j], np.int16)
+				except:
+					try:
+						a = np.frombuffer(datalist[i]+b'\x00', np.int16)
+					except:
+						a = np.frombuffer(datalist[i], np.int16)
+					try:
+						b = np.frombuffer(datalist[j]+b'\x00', np.int16)
+					except:
+						b = np.frombuffer(datalist[j], np.int16)
 
 				a1 = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
 				b1 = copy.deepcopy(b[:chunksize]).astype(float)
@@ -176,7 +186,7 @@ class rawCompare:
 		simMat.sort()
 		simMat = simMat[::-1]
 		
-		top = simMat[:(100*len(rawdatas))]
+		top = simMat[:(1000*len(rawdatas))]
 
 		test = []
 
