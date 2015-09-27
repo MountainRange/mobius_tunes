@@ -18,15 +18,7 @@ RUN apt-get update --fix-missing && apt-get -y install python3-pip python3 git
 RUN apt-get update --fix-missing && apt-get -y install libav-tools python3-numpy python3-scipy
 RUN pip3 install wave && pip3 install pydub && pip3 install pyglet
 
-
 RUN git clone https://github.com/MountainRange/mobius-tunes.git mobius
 WORKDIR mobius/src
 
-
-# Add a docker init system and use it
-ADD https://github.com/ohjames/smell-baron/releases/download/v0.1.0/smell-baron /bin/smell-baron
-ENTRYPOINT ["/bin/smell-baron"]
 CMD ["python3 /root/mobius/src/mobius.py"]
-
-# This image is not meant to be run directly, it has not been compiled yet!
-# In addition, it does not contain any source code, only dependencies
