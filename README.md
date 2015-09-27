@@ -4,20 +4,16 @@ This is our submission for HackGT 2015. Mobius Tunes is inspired by [Infinite Ju
 ### Dependencies
 ```
 pip3 install wave
-pip3 install pydub
 pip3 install numpy
 pip3 install scipy
 pip3 install pyglet
 ```
 Or equivalent with your package manager!
 
-This project requires FFMPEG or avconv. [See this for help](https://ffmpeg.org/download.html)
-In order to install avconv on linux, run sudo apt-get install libav-tools
+This project requires libav! Install with `apt-get install libavbin-dev libavbin0`, or follow [the offical
+installation](https://avbin.github.io/AVbin/Download.html)
 
-This project also requires libav! Install with `apt-get install libavbin0 libavbin-dev`.
-
-Does NOT support windows unless ffmpeg is compiled.
-We recommend you run mobius-tunes run on linux! :smile:
+Any Platform that supports python3 and avbin will probably work, but we recommend you run mobius-tunes run on linux! :smile:
 
 Install this package with
 `pip3 install mobius-tunes`
