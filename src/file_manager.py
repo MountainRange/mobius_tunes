@@ -15,6 +15,7 @@ import time
 
 #define stream chunk
 chunk = 32
+bitrate = "256k"
 
 class file_manager(object):
 
@@ -63,7 +64,7 @@ class file_manager(object):
 
 	def write_to_wav(self, path, toWrite, useTemp = True): #
 		prefix = self.__sanitize__(useTemp)
-		return toWrite.export(prefix + path, format="wav")
+		return toWrite.export(prefix + path, format="wav", bitrate = bitrate)
 
 	def get_raw_from_wav(self, path, useTemp = True):
 		prefix = self.__sanitize__(useTemp)

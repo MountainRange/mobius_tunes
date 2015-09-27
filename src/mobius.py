@@ -31,7 +31,6 @@ class mobius_py:
 			self.fileloader.delete_tempfile()
 		else:
 			self.fileloader.delete_tempfile()
-
 		sys.exit(0)
 
 	def __init__(self, parts=500):
