@@ -5,9 +5,13 @@ class command_line_flags(object):
 
 	def __init__(self):
 		try:
-			opts, args = getopt.getopt(sys.argv,"t",["threshold="])
+			self.opts, self.args = getopt.getopt(sys.argv[1:],'d:')
 		except getopt.GetoptError:
 			print('Unknown arguments')
 			sys.exit(2)
-		print(opts)
-		print(args)
+		# print(getopt.getopt(sys.argv[1:],"d:"))
+
+	def get_directory(self):
+		if len(self.opts) > 0:
+			return self.opts[0][1]
+		return 0

@@ -58,6 +58,9 @@ class mobius_py:
 	def main(self):
 		# get songs
 		songs = self.fileloader.load_mp3_from_folder("testmusic") #for each song
+		if not cl.get_directory() == 0:
+			songs = self.fileloader.load_mp3_from_folder(cl.get_directory())
+			print("Directory: " + cl.get_directory())
 
 		self.fileloader.generate_tempfile()
 		print(self.fileloader.get_tempfile())
@@ -129,7 +132,7 @@ class mobius_py:
 
 if __name__ == "__main__":
 	try:
-		command = command_line_flags.command_line_flags()
+		cl = command_line_flags.command_line_flags()
 		mobius = mobius_py()
 		mobius.main()
 	except Exception:
