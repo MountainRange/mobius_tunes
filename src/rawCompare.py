@@ -69,7 +69,7 @@ class rawCompare:
 			simMat.sort()
 			simMat = simMat[::-1]
 			
-			top = simMat[:10]
+			top = simMat[:100]
 
 			test = []
 
