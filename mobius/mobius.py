@@ -18,6 +18,7 @@ import time
 import os
 from operator import itemgetter
 
+
 yes = set(['yes','y', 'ye', 'yah', 'ya'])
 no = set(['no','n', 'nah', 'na'])
 __version__ = '0.1.0'

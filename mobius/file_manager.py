@@ -9,6 +9,7 @@ import glob
 import pyglet
 from operator import itemgetter
 import time
+from mutagen.id3 import ID3
 
 #define stream chunk
 chunk = 32
@@ -76,7 +77,13 @@ class file_manager(object):
 	def load_raw_mp3_from_folder(self, path):
 		toReturn = []
 		for f in glob.glob(path + "/*.mp3"):
-			toReturn.append(self.load_raw_from_mp3(f, useTemp = False))
+			try:
+				audio = ID3(f)
+				print("a")
+				audio.delete()
+				toReturn.append(self.load_raw_from_mp3(f, useTemp = False))
+			except:
+				toReturn.append(self.load_raw_from_mp3(f, useTemp = False))
 		return toReturn
 
 
