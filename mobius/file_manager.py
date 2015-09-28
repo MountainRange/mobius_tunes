@@ -55,7 +55,7 @@ class file_manager(object):
 		byteList = []
 		toAppend = music.get_audio_data('')
 
-		if music.audio_format == None:
+		if music == None:
 			print("An empty file was found! This probably means avbin was incorrectly installed.")
 			exit(1)
 
