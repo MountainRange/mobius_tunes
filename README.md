@@ -9,8 +9,7 @@ pip3 install pyglet
 ```
 Or equivalent with your package manager!
 
-This project requires libav! Install with `apt-get install libavbin-dev libavbin0`, or follow [the offical
-installation](https://avbin.github.io/AVbin/Download.html)
+This project requires avbin! Please install the [lastest version here](https://avbin.github.io/AVbin/Download.html)
 
 Any Platform that supports python3 and avbin will probably work, but we recommend you run mobius-tunes run on linux! :smile:
 
