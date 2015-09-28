@@ -24,7 +24,7 @@ Install this package with
 
 `./runner.py` Runs from source repository
 
-Mobius Tunes will then remix the files in the folder specified, until you kill it with `^C`. If you don't know what songs you want our project to run with, we recommend complementing the provided funkychunk.mp3 with the Pokemon theme song and Never Gonna Give You Up. These three songs interact nicely in Mobius Tunes.
+Mobius Tunes will then remix the files in the folder specified, until you kill it with `^C`. If you don't know what songs you want our project to run with, we recommend trying Ain't No Mountain High Enough, Eye of the Tiger, and Never Gonna Give You Up together. These three songs interact nicely in Mobius Tunes.
 
 Enjoy!
 
