@@ -54,8 +54,8 @@ class file_manager(object):
 		music = pyglet.media.load(prefix + path)
 		byteList = []
 		toAppend = music.get_audio_data('')
-		originalformat = music.audio_format
-
+		wavedata = [music.audio_format.channels, int(music.audio_format.sample_size / 8),
+				music.audio_format.sample_rate, None]
 
 		while toAppend != None:
 			if (toAppend.get_string_data() != None):
@@ -63,8 +63,7 @@ class file_manager(object):
 			toAppend = music.get_audio_data('')
 
 		toReturn = b''.join(byteList)
-		wavedata = (originalformat.channels, int(originalformat.sample_size / 8),
-				originalformat.sample_rate, int(len(toReturn) / 4))
+		wavedata[3] = int(len(toReturn) / 4)
 
 
 		return wavedata, toReturn
