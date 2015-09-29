@@ -76,13 +76,18 @@ class file_manager(object):
 
 	def load_raw_mp3_from_folder(self, path):
 		toReturn = []
+		prefix = self.__sanitize__(True)
 		for f in glob.glob(path + "/*.mp3"):
 			try:
-				audio = ID3(f)
+				k = f.split("/")
+				path_new = prefix + "/" + k[len(k) -1]
+				shutil.copy2(f, prefix)
+				audio = ID3(path_new)
 				audio.delete()
-				toReturn.append(self.load_raw_from_mp3(f, useTemp = False))
+				toReturn.append(self.load_raw_from_mp3(path_new, useTemp = False))
 			except:
 				toReturn.append(self.load_raw_from_mp3(f, useTemp = False))
+		shutil.rmtree(prefix)
 		return toReturn
 
 

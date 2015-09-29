@@ -29,7 +29,4 @@ Mobius Tunes will then remix the files in the folder specified, until you kill i
 
 Enjoy!
 
-### Issues
-
-This will erase all data from the mp3 files you supply which includes album art, artist/album labels, etc. Be forewarned before using this.
 
