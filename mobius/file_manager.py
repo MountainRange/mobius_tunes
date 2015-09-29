@@ -79,7 +79,6 @@ class file_manager(object):
 		for f in glob.glob(path + "/*.mp3"):
 			try:
 				audio = ID3(f)
-				print("a")
 				audio.delete()
 				toReturn.append(self.load_raw_from_mp3(f, useTemp = False))
 			except:
