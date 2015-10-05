@@ -17,7 +17,6 @@ import copy
 import time
 import os
 from operator import itemgetter
-import matplotlib.pyplot as plt
 from operator import add
 
 
@@ -70,6 +69,7 @@ class mobius_py:
 		for opt in opts:
 			if opt[0] == '-d':
 				directory = opt[1]
+				directory = os.path.abspath(directory)
 				print("Directory: " + directory)
 			elif opt[0] == '-t':
 				threshold = (float) (opt[1])
