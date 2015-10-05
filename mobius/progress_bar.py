@@ -2,6 +2,7 @@
 
 import time
 import os
+import shutil
 from collections import deque
 
 class progress_bar:
@@ -17,8 +18,9 @@ class progress_bar:
 
 	def update_bar(self, length):
 		length = int(length)
-		_, columns = os.popen('stty size', 'r').read().split()
-		columns = int(columns)
+		columns = shutil.get_terminal_size((80, 20))[0]
+		#_, columns = os.popen('stty size', 'r').read().split()
+		columns = int(columns) -4
 
 		# Go to start of line
 		print('', end = "\r")
@@ -68,6 +70,7 @@ class progress_bar:
 
 	def get_value(self):
 		return self.last
+		
 
 if __name__ == "__main__":
 	bar = progress_bar(20)
