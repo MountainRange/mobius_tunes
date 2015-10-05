@@ -116,7 +116,7 @@ class rawCompare:
 
 		return test2
 
-	def compareAll(self, rawdatas, parts=100, chunksize=100, threshold=1.0, maxStop=None):
+	def compareAll(self, rawdatas, parts=200, chunksize=100, threshold=1.0, maxStop=None, jumpsize=10, jumpsize2=100):
 		if maxStop == None:
 			maxStop = len(rawdatas)*500
 
@@ -135,10 +135,10 @@ class rawCompare:
 			bar.update_bar(bar.get_value())
 			if i % 15 == 0 and i != 0:
 				#print (str(i) + " parts processed.")
-				bar.update_bar((i/chunksize/len(rawdatas))*50)
+				bar.update_bar((i/parts/len(rawdatas))*50)
 			for j in range(len(datalist)):
-				chunki = chunksize * i
-				if (j in range(i-10, i+10)) or (j > chunki and j < (chunki)+25) or (j > (chunki)+chunksize-25 and j < (chunki)+chunksize):
+				chunki = parts * (int)(i / parts)
+				if (j in range(i-10, i+10)) or (j > chunki and j < (chunki)+(parts/4)) or (j > (chunki)+parts-(parts/4) and j < (chunki)+parts):
 					simMat[i][j] = 0
 					continue
 				a = np.frombuffer(datalist[i], np.int16)
@@ -149,10 +149,10 @@ class rawCompare:
 
 				with warnings.catch_warnings():
 					warnings.simplefilter("ignore")
-					apre = copy.deepcopy(a[len(a)-chunksize:]).astype(float)
+					apre = copy.deepcopy(a[:(chunksize*jumpsize):jumpsize]).astype(float)
 					a1 = np.zeros(doublechunk)
 					a1[halfchunk:halfchunk+chunksize] = apre
-					bpre = copy.deepcopy(b[:chunksize]).astype(float)
+					bpre = copy.deepcopy(b[:(chunksize*jumpsize):jumpsize]).astype(float)
 					b1 = np.zeros(doublechunk)
 					b1[halfchunk:halfchunk+chunksize] = bpre
 
@@ -163,8 +163,23 @@ class rawCompare:
 					#compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
 					d = signal.fftconvolve(a1, apre[::-1], mode='valid')
 					compmax = np.max(d)
+					
+					apreJ = copy.deepcopy(a[:(chunksize*jumpsize2):jumpsize2]).astype(float)
+					a1J = np.zeros(doublechunk)
+					a1J[halfchunk:halfchunk+chunksize] = apreJ
+					bpreJ = copy.deepcopy(b[:(chunksize*jumpsize2):jumpsize2]).astype(float)
+					b1J = np.zeros(doublechunk)
+					b1J[halfchunk:halfchunk+chunksize] = bpreJ
 
-					similarity = compmax / automax
+					#automax = np.max(np.correlate(a1, a1, mode='full')[(chunksize/2):])
+					cJ = signal.fftconvolve(b1J, apreJ[::-1], mode='valid')
+					automax2 = np.max(cJ)
+
+					#compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
+					dJ = signal.fftconvolve(a1J, apreJ[::-1], mode='valid')
+					compmax2 = np.max(dJ)
+
+					similarity = ((compmax / automax) + (compmax2 / automax2)) / 2
 
 				#print (automax)
 				#print (compmax)
@@ -200,7 +215,8 @@ class rawCompare:
 		simMat.sort()
 		simMat = simMat[::-1]
 
-		top = simMat[:(100*len(rawdatas))]
+		top = simMat[:(20*len(rawdatas))]
+		print (top)
 
 		test = []
 
