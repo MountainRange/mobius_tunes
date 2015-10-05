@@ -5,7 +5,6 @@ import audioop
 import random
 import os
 import tempfile
-import glob
 import pyglet
 from operator import itemgetter
 import time
@@ -75,8 +74,11 @@ class file_manager(object):
 
 	def load_raw_mp3_from_folder(self, path):
 		toReturn = []
-		for f in glob.glob(path + "/*.mp3"):
-			toReturn.append(self.load_raw_from_mp3(f, useTemp = False))
+
+		for root, dirs, files in os.walk(path):
+			for file in files:
+				if file.endswith(".mp3"):
+					toReturn.append(self.load_raw_from_mp3(os.path.join(root, file), useTemp = False))
 		return toReturn
 
 
