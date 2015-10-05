@@ -134,6 +134,9 @@ class rawCompare:
 		for i in range(len(datalist)):
 			bar.update_bar(i)
 			for j in range(len(datalist)):
+				if i > j:
+					simMat[i][j] = 0
+					continue
 				chunki = parts * (int)(i / parts)
 				if (j in range(i-10, i+10)) or (j > chunki and j < (chunki)+(parts/4)) or (j > (chunki)+parts-(parts/4) and j < (chunki)+parts):
 					simMat[i][j] = 0
