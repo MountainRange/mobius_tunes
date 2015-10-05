@@ -2,5 +2,4 @@
 
 from mobius import mobius
 
-mobius.main()
-
+mobius.main("mobius/testmusic")

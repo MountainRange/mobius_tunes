@@ -21,19 +21,23 @@ from operator import itemgetter
 
 yes = set(['yes','y', 'ye', 'yah', 'ya'])
 no = set(['no','n', 'nah', 'na'])
-__version__ = '0.1.0'
+
+# Turns on tmp prompt removal
+debug = False
 
 class mobius_py:
 
 	def signal_handler(self, signal=signal.SIGINT, frame=None):
-		choice = input('Would you like to keep your tmp files [yN]: ').lower()
+		if debug:
+			choice = input('Would you like to keep your tmp files [yN]: ').lower()
+
 		if choice in yes:
 			print("Find your tmp files at: " + self.fileloader.get_tempfile())
 		elif choice in no:
 			self.fileloader.delete_tempfile()
 		else:
 			self.fileloader.delete_tempfile()
-		exit(0)
+		exit(1)
 
 	def __init__(self, parts=100):
 		self.fileloader = file_manager()
@@ -55,10 +59,9 @@ class mobius_py:
 			song = song[connections[i]:]
 		return fragments
 
-	def main(self):
+	def main(self, directory = None):
 		# initialize some variables
 		cl = command_line_flags()
-		directory = "mobius/testmusic"
 		chunksize = 100
 		threshold = 1.0
 		opts = cl.get_arguments()
@@ -73,9 +76,12 @@ class mobius_py:
 				chunksize = (int) (opt[1])
 				print("Size of song chunks: " + (str) (chunksize))
 
-		if not os.path.isdir(directory):
-			print(directory + " was not found, specify a directory with -d <DIR>...")
+		if directory == None:
+			print("A music directory was not supplied. Specify a directory with -d <DIR>...")
 			exit(2)
+		elif not os.path.isdir(directory):
+			print(directory + " was not found, specify a directory with -d <DIR>...")
+			exit(3)
 
 		# get songs
 		songs = self.fileloader.load_raw_mp3_from_folder(directory) #for each song
@@ -142,15 +148,14 @@ class mobius_py:
 		# Do not remove unless debugging
 		self.signal_handler(signal.SIGINT, None)
 
-def main():
+def main(directory = None):
 	try:
 		mob = mobius_py()
-		mob.main()
+		mob.main(directory)
 	except Exception:
-		mob.fileloader.delete_tempfile()
-		e = sys.exc_info()[0]
-		write_to_page( "<p>Error: %s</p>" % e )
+		if mob.fileloader != None:
+			mob.fileloader.delete_tempfile()
+		exit(2)
 
 if __name__ == '__main__':
     main()
-
