@@ -132,7 +132,6 @@ class rawCompare:
 		print ("CALCULATING")
 		bar = progress_bar(len(datalist))
 		for i in range(len(datalist)):
-			bar.update_bar(bar.get_value())
 			bar.update_bar(i)
 			for j in range(len(datalist)):
 				chunki = parts * (int)(i / parts)
