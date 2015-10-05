@@ -17,6 +17,8 @@ import copy
 import time
 import os
 from operator import itemgetter
+import matplotlib.pyplot as plt
+from operator import add
 
 yes = set(['yes','y', 'ye', 'yah', 'ya'])
 no = set(['no','n', 'nah', 'na'])
@@ -38,7 +40,7 @@ class mobius_py:
 			self.fileloader.delete_tempfile()
 		exit(1)
 
-	def __init__(self, parts=100):
+	def __init__(self, parts=200):
 		self.fileloader = file_manager()
 		self.rawCompare = rawCompare()
 		self.parts = parts
@@ -121,16 +123,17 @@ class mobius_py:
 				print ("50% DONE")
 			if stopNum >= maxStop:
 				break
-			currentfrags += datalist[i]
-			if i % self.parts == self.parts-1:
-				i -= self.parts-1
 			if i in fragDict:
-				if (random.randint(0, 4) == 1 and len(currentfrags) > 256000) or len(currentfrags) > 2560000:
+				if (random.randint(0, 2) == 1 and len(currentfrags) > 256000) or len(currentfrags) > 2560000:
+					currentfrags += datalist[fragDict[i]]
 					print ("JUMPED ADDED")
 					self.fileloader.play_raw_data(wavedata, currentfrags, queue = True)
 					time.sleep((len(currentfrags)/256000)-1)
 					currentfrags = b''
-					i = fragDict[i]
+					i = fragDict[i] + 1
+			currentfrags += datalist[i]
+			if i % self.parts == self.parts-1:
+				i -= self.parts-1
 			i += 1
 
 		playList = []
