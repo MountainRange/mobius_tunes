@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import time
+import os
 from collections import deque
 
 class progress_bar:
@@ -16,6 +17,26 @@ class progress_bar:
 
 	def update_bar(self, length):
 		length = int(length)
+		_, columns = os.popen('stty size', 'r').read().split()
+		columns = int(columns)
+
+		# Go to start of line
+		print('', end = "\r")
+		# Clear line
+		print('\033[J', end = "")
+
+		if columns < 10:
+			# We can't output progress on tiny terminals!
+			return
+
+		# The amount of space we have to draw in
+		numToDraw = columns - 6
+		# The amount of 'progress'
+		filledAmount = max(1, int(numToDraw * (length / self.size)))
+		# The amount of non-progress
+		spacedAmount = numToDraw - filledAmount
+
+
 		print("[" + self.spinny[0] + "] ", end = "")
 		tmp = self.spinny.popleft()
 		self.spinny.append(tmp)
@@ -31,20 +52,14 @@ class progress_bar:
 			raise ValueError('You entered a len > size for the bar')
 
 		print('[', end = "")
-		for j in range(length - 1):
+		for j in range(filledAmount - 1):
 			print('=', end = "")
 		print('>', end = "")
 
 
-		# Edge case for start
-		if length == 0:
-			length += 1
-		for j in range(self.size - length - 1):
+		for j in range(spacedAmount):
 			print('-', end = "")
 		print(']', end = "")
-
-		time.sleep(0.1)
-		print("", end = "\r")
 
 	def complete(self):
 		self.update_bar(self.size)
