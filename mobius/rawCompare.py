@@ -130,12 +130,10 @@ class rawCompare:
 		rebuiltdata = b''
 		simMat = np.zeros((len(datalist),len(datalist)))
 		print ("CALCULATING")
-		bar = progress_bar(50)
+		bar = progress_bar(len(datalist))
 		for i in range(len(datalist)):
 			bar.update_bar(bar.get_value())
-			if i % 15 == 0 and i != 0:
-				#print (str(i) + " parts processed.")
-				bar.update_bar((i/parts/len(rawdatas))*50)
+			bar.update_bar(i)
 			for j in range(len(datalist)):
 				chunki = parts * (int)(i / parts)
 				if (j in range(i-10, i+10)) or (j > chunki and j < (chunki)+(parts/4)) or (j > (chunki)+parts-(parts/4) and j < (chunki)+parts):
@@ -163,7 +161,7 @@ class rawCompare:
 					#compmax = np.max(np.correlate(a1, b1, mode='full')[(chunksize/2):])
 					d = signal.fftconvolve(a1, apre[::-1], mode='valid')
 					compmax = np.max(d)
-					
+
 					apreJ = copy.deepcopy(a[:(chunksize*jumpsize2):jumpsize2]).astype(float)
 					a1J = np.zeros(doublechunk)
 					a1J[halfchunk:halfchunk+chunksize] = apreJ
@@ -216,7 +214,7 @@ class rawCompare:
 		simMat = simMat[::-1]
 
 		top = simMat[:(20*len(rawdatas))]
-		print (top)
+		# print (top)
 
 		test = []
 
@@ -231,6 +229,3 @@ class rawCompare:
 			fragDict[test[i][0]] = test[i][1]
 
 		return fragDict, datalist
-
-
-

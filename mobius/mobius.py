@@ -16,6 +16,7 @@ import numpy.fft as npf
 import copy
 import time
 import os
+import traceback
 from operator import itemgetter
 import matplotlib.pyplot as plt
 from operator import add
@@ -31,6 +32,7 @@ class mobius_py:
 	def signal_handler(self, signal=signal.SIGINT, frame=None):
 		if debug:
 			choice = input('Would you like to keep your tmp files [yN]: ').lower()
+		choice = None
 
 		if choice in yes:
 			print("Find your tmp files at: " + self.fileloader.get_tempfile())
@@ -158,6 +160,7 @@ def main(directory = None):
 	except Exception:
 		if mob.fileloader != None:
 			mob.fileloader.delete_tempfile()
+		traceback.print_exc()
 		exit(2)
 
 if __name__ == '__main__':
