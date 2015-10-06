@@ -78,6 +78,7 @@ class progress_bar:
 
 	def get_value(self):
 		return self.last
+		
 
 
 if __name__ == "__main__":

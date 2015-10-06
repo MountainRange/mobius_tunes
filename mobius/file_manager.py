@@ -85,8 +85,8 @@ class file_manager(object):
 		for root, dirs, files in os.walk(path):
 			for file in files:
 				if file.endswith(".mp3"):
-					k = os.path.join(root, file).split("/")
-					path_new = prefix + "/" + k[-1]
+					k = os.path.join(root, file).split(os.sep)
+					path_new = prefix + os.sep + k[-1]
 					shutil.copy2(os.path.join(root, file), prefix)
 					toReturn.append(self.load_raw_from_mp3(path_new, useTemp = False))
 		shutil.rmtree(prefix)

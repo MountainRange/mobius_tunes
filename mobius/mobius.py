@@ -18,7 +18,6 @@ import time
 import os
 import traceback
 from operator import itemgetter
-from operator import add
 
 
 yes = set(['yes','y', 'ye', 'yah', 'ya'])
