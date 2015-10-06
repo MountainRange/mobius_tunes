@@ -64,13 +64,21 @@ class progress_bar:
 		print(']', end = "")
 
 	def complete(self):
+		complete = self.last < self.size
+
+		while self.last < self.size:
+			self.update_bar(self.last + 1)
+			# This could become a big deal on bars with large sizes.
+			time.sleep(0.001)
+
 		self.update_bar(self.size)
-		print("", end = "\n")
+		if complete:
+			print("", end = "\n")
 		last = self.size
 
 	def get_value(self):
 		return self.last
-		
+
 
 if __name__ == "__main__":
 	bar = progress_bar(20)
