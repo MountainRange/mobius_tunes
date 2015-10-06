@@ -6,6 +6,7 @@ This is our submission for HackGT 2015. Mobius Tunes is inspired by [Infinite Ju
 pip3 install numpy
 pip3 install scipy
 pip3 install pyglet
+pip3 install mutagen
 ```
 Or equivalent with your package manager!
 
@@ -27,4 +28,5 @@ Install this package with
 Mobius Tunes will then remix the files in the folder specified, until you kill it with `^C`. If you don't know what songs you want our project to run with, we recommend trying Ain't No Mountain High Enough, Eye of the Tiger, and Never Gonna Give You Up together. These three songs interact nicely in Mobius Tunes.
 
 Enjoy!
+
 

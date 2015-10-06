@@ -8,6 +8,7 @@ import tempfile
 import pyglet
 from operator import itemgetter
 import time
+from mutagen.id3 import ID3
 
 #define stream chunk
 chunk = 32
@@ -50,6 +51,11 @@ class file_manager(object):
 
 	def load_raw_from_mp3(self, path, useTemp = True):
 		prefix = self.__sanitize__(useTemp)
+		try:
+			audio = ID3(path)
+			audio.delete()
+		except:
+			print("")
 		music = pyglet.media.load(prefix + path)
 		byteList = []
 		toAppend = music.get_audio_data('')
@@ -74,11 +80,16 @@ class file_manager(object):
 
 	def load_raw_mp3_from_folder(self, path):
 		toReturn = []
+		prefix = self.__sanitize__(True)
 
 		for root, dirs, files in os.walk(path):
 			for file in files:
 				if file.endswith(".mp3"):
-					toReturn.append(self.load_raw_from_mp3(os.path.join(root, file), useTemp = False))
+					k = os.path.join(root, file).split(os.sep)
+					path_new = prefix + os.sep + k[-1]
+					shutil.copy2(os.path.join(root, file), prefix)
+					toReturn.append(self.load_raw_from_mp3(path_new, useTemp = False))
+		shutil.rmtree(prefix)
 		return toReturn
 
 

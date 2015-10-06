@@ -18,8 +18,7 @@ import time
 import os
 import traceback
 from operator import itemgetter
-import matplotlib.pyplot as plt
-from operator import add
+
 
 yes = set(['yes','y', 'ye', 'yah', 'ya'])
 no = set(['no','n', 'nah', 'na'])
