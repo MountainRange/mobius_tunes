@@ -88,7 +88,7 @@ class file_manager(object):
 					k = os.path.join(root, file).split("/")
 					path_new = prefix + "/" + k[-1]
 					shutil.copy2(os.path.join(root, file), prefix)
-					toReturn.append(self.load_raw_from_mp3(os.path.join(root, file), useTemp = False))
+					toReturn.append(self.load_raw_from_mp3(path_new, useTemp = False))
 		shutil.rmtree(prefix)
 		return toReturn
 
