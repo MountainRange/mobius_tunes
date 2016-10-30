@@ -108,6 +108,13 @@ class mobius_py:
 			wavedata, rawdata = self.fileloader.get_raw_from_wav(match)
 			rawdatas.append(rawdata)
 
+		songs = self.fileloader.load_raw_wav_from_folder(directory) #for each song
+
+		for song in songs:
+			num += 1
+			wavedata, rawdata = self.fileloader.get_raw_from_wav(song, useTemp=False)
+			rawdatas.append(rawdata)
+
 		# PERFORM SOME CHANGES
 		#
 		# Test modification

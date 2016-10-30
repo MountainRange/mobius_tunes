@@ -93,6 +93,16 @@ class file_manager(object):
 		return toReturn
 
 
+	def load_raw_wav_from_folder(self, path):
+		toReturn = []
+
+		for root, dirs, files in os.walk(path):
+			for file in files:
+				if file.endswith(".wav"):
+					toReturn.append(os.path.join(root, file))
+		return toReturn
+
+
 	def write_to_wav(self, path, toWrite, useTemp = True): #
 		prefix = self.__sanitize__(useTemp)
 		return toWrite.export(prefix + path, format="wav", bitrate = bitrate)
