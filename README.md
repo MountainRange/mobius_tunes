@@ -12,7 +12,7 @@ Or equivalent with your package manager!
 
 This project requires avbin! Please install the [lastest version here](https://avbin.github.io/AVbin/Download.html)
 
-Any Platform that supports python3 and avbin will probably work, but we recommend you run mobius-tunes run on linux! :smile:
+Any Platform that supports python3 and avbin will probably work, but we recommend you run mobius-tunes on Linux! :smile:
 
 Install this package with
 `pip3 install mobius-tunes`
@@ -28,5 +28,3 @@ Install this package with
 Mobius Tunes will then remix the files in the folder specified, until you kill it with `^C`. If you don't know what songs you want our project to run with, we recommend trying Ain't No Mountain High Enough, Eye of the Tiger, and Never Gonna Give You Up together. These three songs interact nicely in Mobius Tunes.
 
 Enjoy!
-
-
