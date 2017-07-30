@@ -145,7 +145,7 @@ class rawCompare:
 				b = np.frombuffer(datalist[j], np.int16)
 
 				doublechunk = chunksize * 2
-				halfchunk = chunksize/2
+				halfchunk = int(chunksize/2)
 
 				with warnings.catch_warnings():
 					warnings.simplefilter("ignore")
