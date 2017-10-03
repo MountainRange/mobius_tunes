@@ -1,5 +1,5 @@
 # Mobius Tunes
-This is our submission for HackGT 2015. Mobius Tunes is inspired by [Infinite Jukebox](http://labs.echonest.com/Uploader/index.html), a site that continually and randomly loops a given song to other parts of the song that sound similar. Our goal is to recreate it as an open-source project, allowing for multiple songs within a playlist folder to link to one another as well as themselves.
+This is our submission for HackGT 2015. Mobius Tunes is inspired by [Eternal Jukebox](https://eternal.abimon.org/jukebox_index.html), a site that continually and randomly loops a given song to other parts of the song that sound similar. Our goal is to recreate it as an open-source project, allowing for multiple songs within a playlist folder to link to one another as well as themselves.
 
 ### Dependencies
 ```
