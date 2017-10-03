@@ -3,10 +3,7 @@ This is our submission for HackGT 2015. Mobius Tunes is inspired by [Infinite Ju
 
 ### Dependencies
 ```
-pip3 install numpy
-pip3 install scipy
-pip3 install pyglet
-pip3 install mutagen
+pip3 install -r requirements.txt
 ```
 Or equivalent with your package manager!
 
